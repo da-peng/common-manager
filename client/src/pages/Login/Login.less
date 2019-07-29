@@ -1,0 +1,53 @@
+@import '../../globalCss/Global.less';
+
+@media (min-width: 900px) {
+    .loginForm {
+        height: 100%;
+        min-width: 230px;
+        width: 230px;
+    }
+}
+@media (max-width: 900px) {
+    .loginForm {
+        height: 100%;
+        width: 100%;
+    }
+    .loginBackground {
+        display: none;
+    }
+}
+
+
+.loginForm{
+    padding: @padding-lg;
+    box-shadow: 0 0 16px 0 rgba(128,152,213,.5);
+    display: flex;
+    align-items:center;
+}
+
+.loginPage{
+    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    align-items:center;
+}
+
+
+.loginBackground{
+    
+    padding-left:16px;
+    text-align:right;
+    flex:1 1 auto;
+}
+
+.img{
+    height:100vh;
+    vertical-align:middle;
+    border-style:none;
+}
+
+
+
+
+
+

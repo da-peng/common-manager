@@ -1,0 +1,144 @@
+@import "./reset.less";
+@import "~antd/dist/antd.less";
+@import "./AntdTheme.less";
+
+// 这个文件不能 css module 全局css文件
+
+// page
+.global-page {
+    background: @white;
+    padding: @padding-lg;
+}
+
+// Form
+.global-form-search {
+    margin-bottom: @padding-lg;
+    .ant-form-item {
+        display: inline-flex;
+    }
+    .ant-form-item-label {
+        flex: 0 0 1;
+    }
+    .ant-form-item-control-wrapper {
+        flex: 1;
+        padding-right: @padding-lg;
+    }
+}
+
+// Form-item
+.ant-form-item-with-help {
+    margin-bottom: @form-item-margin-bottom;
+}
+
+// Layout
+.global-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    .global-layout-footer-copyright {
+        color: @text-color-secondary;
+        text-align: center;
+    }
+    .global-layout-content {
+        padding: @padding-lg;
+        flex: 1;
+        overflow-y: auto;
+    }
+}
+.global-layout-sider {
+    height: 100vh;
+    overflow: hidden;
+    .global-layout-sider-logo {
+        height: @layout-header-height;
+        line-height: @layout-header-height;
+        padding: 0 24px;
+        background: #002140;
+        display: flex;
+        align-items: center;
+        h1 {
+            margin-left: @padding-lg;
+            font-weight: 500;
+            color: @white;
+            flex: 1 0 0;
+            margin-bottom: 0;
+            font-size: 20px;
+            white-space: nowrap;
+        }
+    }
+    .global-layout-sider-menu {
+        position: absolute;
+        top: @layout-header-height;
+        bottom: 0;
+        width: 100%;
+        overflow-y: auto;
+    }
+}
+.ant-layout-sider-collapsed {
+    .global-layout-sider-logo {
+        h1 {
+            display: none;
+        }
+    }
+}
+.global-layout-main {
+    height: 100vh;
+    overflow: hidden;
+    .global-layout-main-header {
+        background: #fff;
+        box-shadow: @box-shadow-base;
+        .ant-breadcrumb {
+            display: inline-block;
+            margin-left: @padding-lg;
+        }
+        .global-layout-main-header-right {
+            float: right;
+            height: 100%;
+            cursor: pointer;
+            .global-layout-main-header-right-avatar {
+                // border: 1px @primary-color solid;
+                margin-right: 12px;
+            }
+        }
+    }
+    .global-layout-main-content {
+        padding: @padding-lg;
+        overflow-y: scroll;
+    }
+}
+
+// Spin
+.global-spin-full {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.6);
+    z-index: 9999;
+}
+
+// Select
+.ant-select {
+    width: 100%;
+}
+
+// Modal
+.ant-modal-header {
+    padding: 16px;
+}
+.ant-modal-body {
+    max-height: 450px;
+    overflow-y: auto;
+}
+.ant-modal-footer {
+    padding: 16px;
+}
+
+// Dropdown
+.ant-dropdown-menu {
+    padding: 0;
+}

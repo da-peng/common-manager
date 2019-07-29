@@ -1,0 +1,11 @@
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="#ffffff" id="canvas_background" height="482" width="642" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text stroke="null" transform="matrix(2.2746360301971436,0,0,2.613072633743286,-107.06942653656006,-175.8249170780182) " xml:space="preserve" text-anchor="start" font-family="'Shadows Into Light', serif" font-size="119" id="svg_1" y="197.173815" x="71.269094" stroke-opacity="null" stroke-width="NaN" fill="#000000">ls -lh</text>
+ </g>
+</svg>
