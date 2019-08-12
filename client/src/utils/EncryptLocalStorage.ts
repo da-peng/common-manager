@@ -19,12 +19,12 @@ const encryptoLocalStorage = {
                 const bytes = CryptoJS.AES.decrypt(text, ENCRYPTO_SECRET_KEY)
                 const strText = bytes.toString(CryptoJS.enc.Utf8)
                 return strText
-            } else {
-                return null
+            } else{
+                return ''
             }
         } catch (error) {
             localStorage.clear()
-            return null
+            return ''
         }
 
     },
@@ -32,22 +32,22 @@ const encryptoLocalStorage = {
 }
 
 export function getToken() {
-    return encryptoLocalStorage.getItem('token')
+    return localStorage.getItem('token') as any
 }
 
 export function setToken(token: string) {
-    encryptoLocalStorage.setItem('token', token)
+    localStorage.setItem('token', token)
+}
+
+export  function setUid(uid: string) {
+    localStorage.setItem('uid', uid)
+}
+
+export function getUid() {
+    return  parseInt(localStorage.getItem('uid') as any)
 }
 
 export function removeToken() {
     encryptoLocalStorage.removeItem('token')
-    encryptoLocalStorage.removeItem('userinfo')
-}
-
-export function getUserinfo(): string {
-    return encryptoLocalStorage.getItem('userinfo') || ''
-}
-
-export function setUserinfo(userinfo: string) {
-    encryptoLocalStorage.setItem('userinfo', userinfo)
+    encryptoLocalStorage.removeItem('uid')
 }

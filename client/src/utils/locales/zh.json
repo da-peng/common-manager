@@ -1,0 +1,22 @@
+{
+    "requestOk":{
+        "message":"请求成功",
+        "status": 20000
+    },
+    "userNotExist": {
+        "message":"用户不存在",
+        "status": 20001
+    },
+    "tokenInvalid":{
+        "message": "token无效",
+        "status": 20002
+    },
+    "userIsNotActive":{
+        "message": "用户未激活",
+        "status": 20003
+    },
+    "passwordInvalid":{
+        "message": "账号或密码不正确",
+        "status": 20004
+    }
+}

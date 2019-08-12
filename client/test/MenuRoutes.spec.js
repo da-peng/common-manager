@@ -6,7 +6,7 @@ describe("test Roots", () => {
     describe("test Roots", () => {
         it("test Roots", () => {
             let rootList = convertRouterList()
-            console.log(rootList)
+            // console.log(rootList)
             // findRouterByPath('/')
             
         })

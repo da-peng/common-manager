@@ -1,31 +1,33 @@
 import _ from 'lodash'
-import {UserInfo} from '../../models/User'
 import {LOGIN,LOGOUT} from './ActionsType'
 import {IReducerAction} from '../IReducerAction'
 
 export interface IReducerAuthState {
-    user: UserInfo | undefined
-    token: string | null
+    uid: number
+    token: string
 }
 
 const initialState: IReducerAuthState = {
-    user: undefined,
+    uid: 0,
     token: ''
 }
-
+/**
+ * 取的时候
+ * @param state 
+ * @param action 
+ */
 export const authinfoReducer = (
     state:IReducerAuthState = initialState
     , action: IReducerAction<IReducerAuthState> )=>{
         switch (action.type) {
             case LOGIN:
                 return {
-                    user: action.data?  _.cloneDeep(action.data.user) : undefined,
+                    uid: action.data?  _.cloneDeep(action.data.uid) : 0,
                     token: action.data?  action.data.token : '',
                     }
             case LOGOUT:
                 return {
-                user: undefined,
-                tenantCode: '',
+                uid: 0,
                 token: ''
                 }
             default:

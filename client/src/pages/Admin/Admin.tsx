@@ -5,7 +5,8 @@ import { Layout } from 'antd';
 import { MenuNavigation } from '../../components/Admin/Navigation/MenuNavigation';
 import { CrumbsNavigation } from '../../components/Admin/Navigation/CrumbsNavigation';
 import PageContentRouteCompent from '../../routes/PageContentRouteCompent';
-
+import { DropdownClass } from '../../components/User/UserDropdown';
+import  styles  from './Admin.less'
 const { Sider, Header, Content } = Layout
 
 interface IProps extends IAbstractPageProps, RouteComponentProps<any> { }
@@ -34,10 +35,11 @@ class AdminPageClass extends AbstractPage<IProps, IState>{
                     </div>
                 </Sider>
                 <Layout className="global-layout-main">
-                    <Header className="global-layout-main-header">
-                        <CrumbsNavigation {...this.props}/>
+                    <Header className={`${styles.AdminPageHeader} global-layout-main-header `}>
+                        <CrumbsNavigation  {...this.props}/>
+                        <DropdownClass   {...this.props}/>
                     </Header>
-
+                    
                     <Content className="global-layout-main-content">
                         <PageContentRouteCompent {...this.props}/>
                     </Content>

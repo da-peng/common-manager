@@ -31,7 +31,10 @@ class GlobalSpinClass extends AbstractComponent<IProps, IState> {
             reduxStore && reduxStore.loading && <Spin size="large" className="global-spin-full"/>
         )
     }
-
+    /**
+     * 应用需要更新的情况
+     * @param nextProps 
+     */
     shouldComponentUpdate(nextProps: IProps) {
         const { loading } = nextProps.reduxStore || { loading: false}
         if (this.props.reduxStore && loading === this.props.reduxStore.loading) {

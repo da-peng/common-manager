@@ -61,7 +61,28 @@
     "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "4.2.0"
+    "workbox-webpack-plugin": "4.2.0",
+    
+    "@types/crypto-js": "^3.1.43",
+    "@types/lodash": "^4.14.135",
+    "@types/react-loadable": "^5.5.1",
+    "@types/react-redux": "^7.1.1",
+    "@types/react-router": "^5.0.3",
+    "@types/react-router-dom": "^4.3.4",
+    "antd": "^3.19.8",
+    "axios": "^0.19.0",
+    "babel-plugin-import": "^1.12.0",
+    "react-loadable": "^5.5.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "typings-for-css-modules-loader": "^1.7.0",
+    "crypto-js": "^3.1.9-1",
+    "html-webpack-tags-plugin": "^2.0.13",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "lodash": "^4.17.11"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -144,29 +165,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/register": "^7.5.5",
-    "@types/crypto-js": "^3.1.43",
-    "@types/lodash": "^4.14.135",
     "@types/mockjs": "^1.0.2",
-    "@types/react-loadable": "^5.5.1",
-    "@types/react-redux": "^7.1.1",
-    "@types/react-router": "^5.0.3",
-    "@types/react-router-dom": "^4.3.4",
-    "antd": "^3.19.8",
-    "axios": "^0.19.0",
-    "babel-plugin-import": "^1.12.0",
-    "crypto-js": "^3.1.9-1",
-    "html-webpack-tags-plugin": "^2.0.13",
-    "less": "^3.9.0",
-    "less-loader": "^5.0.0",
-    "lodash": "^4.17.11",
     "mocha": "^6.2.0",
-    "mockjs": "^1.0.1-beta3",
-    "react-loadable": "^5.5.0",
-    "react-redux": "^7.1.0",
-    "react-router-dom": "^5.0.1",
-    "redux": "^4.0.1",
-    "redux-devtools-extension": "^2.13.8",
-    "typings-for-css-modules-loader": "^1.7.0"
+    "mockjs": "^1.0.1-beta3"
   }
 }

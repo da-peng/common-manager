@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { Redirect, Route, RouteProps} from 'react-router-dom'
+import { Redirect, Route, RouteProps } from 'react-router-dom'
 import { getToken } from '../utils/EncryptLocalStorage'
 
 
-interface IProps extends  RouteProps {
+interface IProps extends RouteProps {
     needAuthorized?: boolean
 }
 
 class PrivateRouteComponent extends React.Component<IProps> {
-    
+
     /**
      * 判断是否需要登录
      */
@@ -16,13 +16,16 @@ class PrivateRouteComponent extends React.Component<IProps> {
         const { needAuthorized, path } = this.props
         const token = getToken()
         let authorized = true
-        if (needAuthorized && token === null) {
+        if (needAuthorized && (token === '' || token === null)) {
             authorized = false
         }
-        return authorized ? <Route {...this.props}/> : <Redirect from={path as string} to="/login" />
+        if (path==='/'){
+            return <Redirect from={path as string} to="/login" />
+        }
+        return authorized ? <Route {...this.props} /> : <Redirect from={path as string} to="/login" />
     }
 
-    render(){
+    render() {
         return this.getRenderContent()
     }
 }
@@ -32,4 +35,4 @@ class PrivateRouteComponent extends React.Component<IProps> {
  */
 // export default   PrivateRouteClass
 
-export const PrivateRoute =  PrivateRouteComponent
+export const PrivateRoute = PrivateRouteComponent

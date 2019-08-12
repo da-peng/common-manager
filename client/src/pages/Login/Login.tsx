@@ -7,7 +7,9 @@ import { AbstractPage, IAbstractPageProps, IAbstractPageState } from '../../base
 import { FormComponentProps } from 'antd/lib/form';
 import { RouteComponentProps } from 'react-router';
 import { authService, IAuthLogin } from '../../services/Auth'
+import { setToken, setUid } from '../../utils/EncryptLocalStorage'
 import LoginBackground from '../../asset/media/login-bg.jpg'
+
 
 interface IProps extends IAbstractPageProps, FormComponentProps, RouteComponentProps<any> { }
 
@@ -36,11 +38,8 @@ class LoginPageClass extends AbstractPage<IProps, IState>{
   }
 
 
-  componentDidMount() {
-    if (authService.getAuthFormStore().token) {
-      this.gotoAdminPage()
-    }
-  }
+
+
   /**
    * 登录成功之后，token和用户信息全部存在redux中，不用state传递
    */
@@ -50,11 +49,12 @@ class LoginPageClass extends AbstractPage<IProps, IState>{
  */
   gotoAdminPage() {
     this.props.history.replace(ADMIN)
-    // console.log('111')
   }
 
-  onLoginSuccess(data: IAuthLogin) {
-    // console.log(data.token)
+  async onLoginSuccess(data: IAuthLogin) {
+    setToken(data.token)
+    setUid(data.uid.toString())
+    authService.dispatchAuthToStore()
     this.gotoAdminPage()
   }
 

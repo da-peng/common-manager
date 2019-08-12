@@ -3,11 +3,11 @@ import { request } from '../bases/HttpInterceptors'
 import { IResponseBase, IReuqestBase } from '../bases/HttpModel'
 import { store } from '../reducers/Store'
 import { LOGIN,LOGOUT } from '../reducers/Auth/ActionsType'
-import { getToken,  getUserinfo, removeToken } from '../utils/EncryptLocalStorage'
+import { getToken,   removeToken as removeTokenAndUid, getUid } from '../utils/EncryptLocalStorage'
 import { IReducerAuthState } from '../reducers/Auth/AuthReducer'
 // mock数据
 
-process.env.NODE_ENV === 'development' && require( '../mock/mock_dev')
+// process.env.NODE_ENV === 'development' && require( '../mock/mock_dev')
 
 /**
  * 登录接口参数
@@ -22,10 +22,12 @@ export interface IAuthServiceLogin extends IReuqestBase {
  * 获取用户信息接口参数
  */
 export interface IAuthinfos extends IReuqestBase {
+    uid:number
 }
 
 
 export interface IAuthLogin {
+    uid: number;
     token: string
 }
 
@@ -37,52 +39,57 @@ export class authService {
      * 登录
      */
     static login=(params: IAuthServiceLogin)=> {
-        return request.post<IResponseBase<IAuthLogin>>('/auth/login', params)
+        return request.post<IResponseBase<IAuthLogin>>('/login', params)
     }
 
     /**
      * 退出登录
      */
     static logout=()=> {
-        return request.post<IResponseBase<IAuthLogin>>('/auth/logout')
+        return request.post<IResponseBase<IAuthLogin>>('/logout')
     }
 
      /**
      * 获取用户信息
      */
     static getAuthinfos=(params: IAuthinfos)=> {
-        return request.get<IResponseBase<IAuthInfo>>(`/users/authinfos`)
-    }
-
-    /**
-     * 将local storage中的用户信息、租户code，存至store
-     */
-    static dispatchAuthToStore=()=> {
-        const token = getToken()
-        const userinfo = getUserinfo()
-        const data: IReducerAuthState = {
-            user: userinfo ? JSON.parse(userinfo) : undefined,
-            token
+        return request.get<IResponseBase<IAuthInfo>>('/userinfo',{
+        params:{
+            ...params
         }
-        store.dispatch({
-            type: LOGIN,
-            data
         })
     }
 
     /**
-     * 从store中读取用户信息、租户code、token
+     * 将local storage中的用户信息、存至Redux
+     */
+    static  dispatchAuthToStore=  ()=> {
+        const token = getToken()
+        const uid = getUid()
+        const data: IReducerAuthState = {
+            uid: uid,
+            token: token
+        }
+        store.dispatch({
+            type: LOGIN,
+            data: data
+        })
+    }
+
+    /**
+     * 从store中读取用户uid,token
      */
     static getAuthFormStore=()=> {
-        const { auth } = store.getState()
+        const {auth} = store.getState()
+
         return auth
     }
 
     /**
-     * 删除store中的用户信息、租户code、token
+     * 删除store中的用户uid,token
      */
     static removeAuthFormStore=()=> {
-        removeToken()
+        removeTokenAndUid()
         store.dispatch({
             type: LOGOUT
         })

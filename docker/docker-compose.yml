@@ -1,0 +1,30 @@
+# Use root/example as user/password credentials
+# docker run -it --network some-network --rm mysql mysql -hsome-mysql -uexample-user -p
+# docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+
+# version: '3.1'
+
+# services:
+
+#   db:
+#     image: mysql
+#     command: --default-authentication-plugin=mysql_native_password
+#     restart: always
+#     environment:
+#       MYSQL_ROOT_PASSWORD: example
+
+#   adminer:
+#     image: adminer
+#     restart: always
+#     ports:
+#       - 8080:8080
+
+
+version: '3.1'
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=root

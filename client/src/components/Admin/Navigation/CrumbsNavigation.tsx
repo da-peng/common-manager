@@ -4,7 +4,7 @@ import { RouterConfig, IRouteItem, IExRouteItem} from '../../../routes/RouterCon
 import { RouteComponentProps } from 'react-router';
 import { findAdminRouterConfig } from './NavigationConfig';
 import { Breadcrumb } from 'antd';
-
+import styles from './Navigation.less'
 
 interface IProps extends IAbstractComponentProps, RouteComponentProps {
 
@@ -34,16 +34,16 @@ export class CrumbsNavigation extends AbstractComponent<IProps, IState>{
                 breadcrumb.push(item) 
             }
         })
-        console.log(breadcrumb)
+        // console.log(breadcrumb)
         return breadcrumb
     }
     
     getRenderContent() {
        
-        console.log(this.routers)
+        // console.log(this.routers)
 
         return (
-            <Breadcrumb>
+            <Breadcrumb  className={styles.CrumbsNavigation}>
                 {this.getBreadcrumb().map(item => 
                 <Item key={item.path}>{item.title}</Item>)}
             </Breadcrumb>

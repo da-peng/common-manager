@@ -1,12 +1,15 @@
 import axios, { AxiosInstance } from 'axios'
-import { BASEURL, REQUEST_STATUSCODE } from '../utils/Constants'
+import { BASEURL } from '../utils/Constants'
+import { Message } from '../utils/Message'
 import { store } from '../reducers/Store'
-import {LOGOUT} from '../reducers/Auth/ActionsType'
-import {removeToken} from '../utils/EncryptLocalStorage'
+// import {LOGOUT} from '../reducers/Auth/ActionsType'
+// import {removeToken} from '../utils/EncryptLocalStorage'
+import { notice } from '../utils/Notification/Notification'
 
 const axiosInstance = axios.create(
     {
-        baseURL: BASEURL
+        baseURL: BASEURL,
+        timeout: 1000,
     }
 )
 /**
@@ -16,32 +19,49 @@ const getAuthFormStore = () => {
     const { auth } = store.getState()
     return auth
 }
-/**
- * 移除localStorage 中的Token信息
- * 执行 reducer Logout action 操作
- */
-const removeAuthFormStore = ()=>{
-    removeToken()
-    store.dispatch({
-        type: LOGOUT
-    })
-}
+
+// /**
+//  * 移除localStorage 中的Token信息
+//  * 执行 reducer Logout action 操作
+//  */
+// const removeAuthFormStore = ()=>{
+//     removeToken()
+//     store.dispatch({
+//         type: LOGOUT
+//     })
+// }
 
 
 interface IError {
     message: string
 }
 
-const errorHandle = (error: IError) => {
-    return Promise.resolve(
-        {
-            status: 0,
-            statusMessage: error.message,
-            data: {
-                responseContent: error.message,
+// https://m.jb51.net/article/147916.htm
+const errorHandle = (error: any) => {
+    const { response } = error;
+
+    if (response) {// 返回500
+        return Promise.resolve(
+            notice({
+                noticeType: 'error',
+                message: error.message,
+                description: 'Oops!~Something is wrong',
+                duration: 3,
             }
-        }
-    )
+            )
+        )
+    } else {// 断网
+        return Promise.reject(
+            notice({
+                noticeType: 'error',
+                message: error.message,
+                description: 'Oops!~ Something is wrong',
+                duration: 3,
+            }
+            )
+        )
+    }
+
 }
 
 //https://www.kancloud.cn/yunye/axios/234845
@@ -49,7 +69,7 @@ const errorHandle = (error: IError) => {
 const CancelToken = axios.CancelToken
 let cancelMaps: any = {}
 
-const getComponentUUID = (instance:any)=>{
+const getComponentUUID = (instance: any) => {
     let componentUUID: string = ''
     if (instance.method === 'get' && instance.params) {
         componentUUID = instance.params.componentUUID
@@ -59,45 +79,63 @@ const getComponentUUID = (instance:any)=>{
     return componentUUID
 }
 
-axiosInstance.interceptors.request.use(config => {
+const getResponseComponentUUID = (instance: any) => {
+    let componentUUID: string = ''
+    if (instance.method === 'post' && instance.data) {
+        componentUUID = JSON.parse(instance.data).componentUUID
+    }else if (instance.method === 'get' && instance.params){
+        componentUUID = instance.params.componentUUID
+    }
+    return componentUUID
+}
+
+axiosInstance.interceptors.request.use(requestConfig => {
     const auth = getAuthFormStore()
-    const componentUUID = getComponentUUID(config)
+    let componentUUID = getComponentUUID(requestConfig)
+
     if (componentUUID) {
-        config.cancelToken = new CancelToken(cancel => {
+        requestConfig.cancelToken = new CancelToken(cancel => {
             // 这里结构 {componentUUID: cancel请求的实例}
             cancelMaps[componentUUID] = cancel
         })
     }
+    // if (config.method === 'post'&& config.data){
+    //     delete config.data['componentUUID']
+    // }
     // 将token渐入到 hearder中
-    config.headers.token = auth.token ? auth.token : undefined
+    if (auth.token) {
+        requestConfig.headers.token = auth.token
+    }
     // url 配置
-    config.url = config.url ? config.url : undefined
+    requestConfig.url = requestConfig.url ? requestConfig.url : undefined
 
-    return config
+    return requestConfig
 }, errorHandle)
 
 
 // 添加响应拦截器
-axios.interceptors.response.use( response=> {
+axiosInstance.interceptors.response.use(response => {
     // 对响应数据做点什么
-    const componentUUID = getComponentUUID(response.config)
+    let componentUUID = getResponseComponentUUID(response.config)
+
     if (componentUUID) {
         delete cancelMaps[componentUUID]
     }
     // 如果状态码是：未登录，鉴权失败
-    if (response.data.statusCode === REQUEST_STATUSCODE.UNAUTHORIZED.code) {
-
+    if (response.data.status !== Message.get('requestOk').status) {
         // location.replace('/login')
-        removeAuthFormStore()
-        // notice({
-        //     type: 'warning',
-        //     message: '信息提示',
-        //     description: response.data.statusMessage,
-        //     onClose: () => {
-        //         location.replace('/login')
-        //     }
-        // })
+
+        // removeAuthFormStore()
+         
+        notice({
+            noticeType: 'warn',
+            message: response.data.status,
+            description: response.data.message,
+            duration: 3,
+        })
     }
+   
+
     return response;
 }, errorHandle);
 
@@ -109,10 +147,15 @@ interface IRequest extends AxiosInstance {
 
 export const request: IRequest = axiosInstance
 
+/**
+ * 用一个map 维护 uuid： 对应的cancel实例； 组件卸载时，再待调用cancel实例 
+ */
 request.cancel = (key: string) => {
     if (cancelMaps[key]) {
-        cancelMaps[key]('cancel')
+        cancelMaps[key]('组件卸载,取消请求')
         // console.log('cancel:', key)
         delete cancelMaps[key]
     }
 }
+
+

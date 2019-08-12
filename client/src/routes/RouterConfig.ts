@@ -55,21 +55,30 @@ export const RouterConfig: Array<IRouteItem> = [
                 breadcrumbName:'仪表盘',
             },
             {
-                title: '店铺仓储',
+                title: '内容创作者',
                 showMenu: true,
-                menuIcon: 'database',
-                path: 'storage',
+                menuIcon: 'crown',
+                path: 'anchor',
                 remark:'一级菜单',
-                breadcrumbName:'店铺仓储',
+                breadcrumbName:'内容创作者',
                 children:[
                     {
-                        title: '商品条形码',
-                        path: 'barcode',
+                        title: '萌新',
+                        path: 'sprout',
                         // component: AsyncWorkplace,
                         showMenu: true,
                         menuIcon: 'file-excel',
                         remark: '二级路由',
-                        breadcrumbName:'商品条形码'
+                        breadcrumbName:'萌新'
+                    },
+                    {
+                        title: '职业主播',
+                        path: 'profession',
+                        // component: AsyncWorkplace,
+                        showMenu: true,
+                        menuIcon: 'file-excel',
+                        remark: '二级路由',
+                        breadcrumbName:'职业主播'
                     },
                 ]
             }

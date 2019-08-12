@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import { request } from './HttpInterceptors'
 
 export interface IAbstractPageProps {
     className?: string
@@ -23,7 +23,7 @@ export abstract class AbstractPage<P extends IAbstractPageProps, S extends IAbst
     abstract state: S
 
     /**
-     * 组件初始化时间
+     * 组件挂载的当前时间
      */
     initTimeSpan: number = 0
 
@@ -51,7 +51,13 @@ export abstract class AbstractPage<P extends IAbstractPageProps, S extends IAbst
         return this.displayName
     }
 
+    /**
+     * 用1个map记录当前所有的异步请求，key：组件uuid，value：请求cancel实例 （卸载后；调用cancel）
+     */
     componentWillUnmount() {
+        if (request.cancel) {
+            request.cancel(this.getUUID())
+        }
     }
     
     /**

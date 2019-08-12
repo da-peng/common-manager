@@ -2,8 +2,9 @@
  *  用户登录状态
  */
 export interface IAuthInfo {
-    user: UserInfo | undefined
-    token: string | undefined
+    nickName?: string
+    username:string
+    icon?: string
 }
 
 /**

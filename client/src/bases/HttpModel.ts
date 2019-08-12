@@ -1,13 +1,13 @@
 export interface IResponseBase<T> {
-    statusCode: string
-    statusMessage: string
-    responseContent: T
+    status: number
+    message: string
+    data: T
 }
 
 export interface IResponseListBase<T> {
-    statusCode: string
-    statusMessage: string
-    responseContent: {
+    status: number
+    message: string
+    data: {
         list: Array<T>
         total: number
         pageNum: number
@@ -19,5 +19,5 @@ export interface IResponseListBase<T> {
 export interface IReuqestBase {
     pageNum?: number
     pageSize?: number
-    componentUUID: string
+    componentUUID: string //为什么必须要有这个呢？ 这个是UI组件，传到 异步请求的过度
 }

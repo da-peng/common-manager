@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {store} from '../reducers/Store'
 import {SHOW,HIDEN} from '../reducers/Loading/ActionsType'
-
+import { request } from './HttpInterceptors';
 
 export interface IAbstractComponentProps<T = any>{
     value?: T | undefined
@@ -84,6 +84,9 @@ export abstract class AbstractComponent<P extends IAbstractComponentProps, S ext
     }
 
     componentWillUnmount() {
+        if (request.cancel) {
+            request.cancel(this.getUUID())
+        }
     }
 
     /**

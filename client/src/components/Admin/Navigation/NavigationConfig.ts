@@ -26,7 +26,7 @@ export function convertRouterList(){
         }
         i++
     }
-    console.log(routerList)
+    // console.log(routerList)
     return routerList
 }
 
@@ -45,7 +45,7 @@ export function findAdminRouterConfig(props:any):Array<IExRouteItem> {
  * @param path 
  */
 export function findRouterByPath(path: string) {
-    console.log(path)// admin 渲染之后
+    // console.log(path)// admin 渲染之后
     let pathOfRouter = convertRouterList().filter((item) => {
        return item.root === path || item.parent === path 
     })
