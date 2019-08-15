@@ -10,7 +10,7 @@ export class ConnectionManage {
         host: process.env.HITCHHIKER_DB_HOST || 'localhost',
         port: parseInt(process.env.HITCHHIKER_DB_PORT)||3306,
         username: process.env.HITCHHIKER_DB_USERNAME||'root',
-        database: process.env.MYSQL_DATABASE||'test',
+        database: process.env.MYSQL_DATABASE||'vlog-data',
         password: process.env.MYSQL_ROOT_PASSWORD||'root',
         entities: ["entity/*.js"]
 

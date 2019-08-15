@@ -1,5 +1,8 @@
 import {Entity,  CreateDateColumn,UpdateDateColumn,Column, PrimaryGeneratedColumn} from "typeorm";
 
+/***
+ * 管理后台的用户名
+ */
 @Entity()
 export class User {
 

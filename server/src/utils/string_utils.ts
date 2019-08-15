@@ -26,5 +26,11 @@ export class StringUtil{
         return rst;
     }
 
+    static unitConvertToInt=(i:string)=>{
+        if (i.match(/万/)){
+            return parseInt(i.replace('万',''))*10000
+        }
+        return parseInt(i)
+    }
 
 }
