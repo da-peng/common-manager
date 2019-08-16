@@ -3,7 +3,9 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
 
 export class ConnectionManage {
 
-
+    /**
+     * 不使用这种，使用ormconfig.json 的配置文件
+     */
     static connectionOptions: MysqlConnectionOptions = {
         type: "mysql",
         host: process.env.HITCHHIKER_DB_HOST || 'localhost',
@@ -38,8 +40,6 @@ export class ConnectionManage {
     static async initData() {
        
     }
-
-
 
 
     static async connect() {

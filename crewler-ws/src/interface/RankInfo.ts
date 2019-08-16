@@ -1,6 +1,6 @@
 export interface RankItemInfo {
     nickname:string
-    num:number
+    rank:number
     authorLink:string
     detail:VideoDetail
 }

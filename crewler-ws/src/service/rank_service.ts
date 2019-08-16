@@ -38,7 +38,7 @@ export class RankService{
         /**保存更新主播视频热度信息 不唯一（时间性） */
         await VideoService.saveVideoHotInfo(videoHotInfo)
         /**保存用户排行榜信息 不唯一（时间性） */
-        await anchorDailyRankRepository.createAndSave(anchor.id, rankItemInfo.num,videoInfo.id)
+        await anchorDailyRankRepository.createAndSave(anchor.id, rankItemInfo.rank,videoInfo.id)
         /**保存tag */
         let tags = detail.tags.split(',')
 

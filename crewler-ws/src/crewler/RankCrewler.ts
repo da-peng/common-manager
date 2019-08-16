@@ -25,7 +25,7 @@ export class RankCrewler extends AbstractBaseCrewler {
         this.rankInfo = await this.page.$$eval(list,
             items => {
                 return items.map((i) => {
-                    let num: any = i.querySelector('div.num').textContent
+                    let rank: any = i.querySelector('div.num').textContent
                     let detail = i.querySelector('div.info > div.detail')
                     let videoLink = i.querySelector('div.info').querySelector('a').href
                     let title = i.querySelector('div.info').querySelector('a').textContent
@@ -37,7 +37,7 @@ export class RankCrewler extends AbstractBaseCrewler {
 
                     return {
                         nickname: nickname,
-                        num: num,
+                        rank: rank,
                         authorLink: authorLink,
                         detail: {
                             title: title,
@@ -98,7 +98,7 @@ export class RankCrewler extends AbstractBaseCrewler {
             //     collect = ops.querySelector('span.collect').textContent
             // })
             /**把需要转化为int的进行转化 */
-            item.num = unitConvertToInt(item.num)
+            item.rank = unitConvertToInt(item.rank)
 
             item.detail.play = unitConvertToInt(item.detail.play)
             item.detail.view = unitConvertToInt(item.detail.view)
