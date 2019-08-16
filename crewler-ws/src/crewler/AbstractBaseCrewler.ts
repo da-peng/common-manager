@@ -1,6 +1,7 @@
 import * as puppeteer from 'puppeteer';
 import * as path from 'path'
 import { Browser, Page } from 'puppeteer';
+import {Transform} from 'stream'
 // const puppeteer = require('puppeteer-extra')
 
 const userName = require('os').userInfo().username
@@ -11,10 +12,9 @@ export abstract class AbstractBaseCrewler {
 
     browser: Browser
     page: Page
-    url: string
+    crewlerTransform:Transform
 
-
-    async run(isHeadless: boolean, ...args: any) {
+    async run(isHeadless: boolean, url:string,crewlerTransform:any,...args: any) {
         /*
         * args
         0 true isHeadless 是否开启浏览器 
@@ -23,8 +23,9 @@ export abstract class AbstractBaseCrewler {
         3 pageNum
         */
         // console.log(args[0])
+        this.crewlerTransform = crewlerTransform
         await this.config(isHeadless)
-        await this.start(this.url)
+        await this.start(url)
         // console.log(args[1])
         await this.parse(...args)
         // await this.storeData(result)
@@ -83,6 +84,7 @@ export abstract class AbstractBaseCrewler {
         // set a timeout of 8 minutes
         await this.page.setDefaultNavigationTimeout(480000)
         await this.page.setViewport({ width: 1300, height: 1500 })
+        this.crewlerTransform.write('browser config finish')
     }
 
     timeout(delay: number) {
@@ -108,6 +110,7 @@ export abstract class AbstractBaseCrewler {
         try {
             let page = this.page
             await page.goto(path,{waitUntil: 'domcontentloaded'}) //使page在 DOMContentLoaded 事件触发时就返回结果，而无需等到Load事件，这样就节省了等待构建渲染树与页面绘制的时间。
+            this.crewlerTransform.write(`page navigation to ${path}`)
             const dimensions = await page.evaluate(() => {
                 return {
                     width: document.documentElement.clientWidth,

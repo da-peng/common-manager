@@ -1,12 +1,11 @@
 import 'reflect-metadata'
 import * as Koa from 'koa'
 import {middleware} from './middleware/middleware'
+import './routers/crewler_router'
 import {ConnectionManage} from './utils/connection_manage'
 
-import {userRouter} from './routers/user_router'
-import {scheduleCronstyle} from '../src/schedule/Schedule'//Todo
 
-let app = new Koa();
+const app = new Koa();
 app.use(middleware())
 
 ConnectionManage.init().then(()=>{
@@ -16,8 +15,8 @@ ConnectionManage.init().then(()=>{
 
 // router
 
-app.use(userRouter.routes())
-app.use(userRouter.allowedMethods())
+// app.use(crewlerRouter.routes())
+// app.use(crewlerRouter.allowedMethods())
 // 启动定时任务
-scheduleCronstyle();
+// scheduleCronstyle();
 app.listen(parseInt(process.env.PORT, 10) || 3000);

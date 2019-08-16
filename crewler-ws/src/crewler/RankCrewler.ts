@@ -1,8 +1,9 @@
-
 import { AbstractBaseCrewler } from './AbstractBaseCrewler'
 import { VideoDetail, RankItemInfo } from '../interface/RankInfo';
 import { StringUtil } from '../utils/string_utils'
 import { RankService } from '../service/rank_service'
+import * as util from 'util'
+
 const unitConvertToInt = StringUtil.unitConvertToInt
 /**
  * 排行榜的爬虫
@@ -10,11 +11,11 @@ const unitConvertToInt = StringUtil.unitConvertToInt
 export class RankCrewler extends AbstractBaseCrewler {
 
 
-    init(isHeadless: boolean, ...args: any) {
-        super.run(isHeadless, ...args)
+    init(isHeadless: boolean, url:string,crewlerTransform:any,...args: any) {
+        super.run(isHeadless, url,crewlerTransform,...args)
     }
 
-    url = 'https://www.bilibili.com/ranking'
+
     /**切换url实现不同分类的爬取 */
     rankInfo: any
 
@@ -24,7 +25,6 @@ export class RankCrewler extends AbstractBaseCrewler {
         this.rankInfo = await this.page.$$eval(list,
             items => {
                 return items.map((i) => {
-
                     let num: any = i.querySelector('div.num').textContent
                     let detail = i.querySelector('div.info > div.detail')
                     let videoLink = i.querySelector('div.info').querySelector('a').href
@@ -68,13 +68,13 @@ export class RankCrewler extends AbstractBaseCrewler {
             const createTime = '#viewbox_report > div:nth-child(2) > span:nth-child(2)'
 
             let danmuCount: string = '', like: string = '', coin: string = '', collect: string = '', videoCreateTime: Date
+            videoCreateTime = new Date((await (await (await this.page.$(createTime)).getProperty('innerText')).jsonValue()).toString())
+            
             await this.page.waitFor(2000)
 
             let count = 0
             while (like == '' || like == '--' || danmuCount == '--弹幕') {
                 await this.page.waitFor(1000)
-                videoCreateTime = new Date((await (await (await this.page.$(createTime)).getProperty('innerText')).jsonValue()).toString())
-
                 danmuCount = (await (await (await this.page.$(danmu)).getProperty('innerText')).jsonValue()).toString()
                 like = (await (await (await this.page.$(ops + '> span.like')).getProperty('innerText')).jsonValue()).toString()
                 coin = (await (await (await this.page.$(ops + '> span.coin')).getProperty('innerText')).jsonValue()).toString()
@@ -85,7 +85,7 @@ export class RankCrewler extends AbstractBaseCrewler {
                 count++
             }
             const tag = '#v_tag > ul > li'
-            let tags = await this.page.$$eval(tag, items => items.map((i) => {
+            let tags:any = await this.page.$$eval(tag, items => items.map((i) => {
                 return i.querySelector('a').textContent
             }))
             /**
@@ -112,7 +112,8 @@ export class RankCrewler extends AbstractBaseCrewler {
             detail.danmu = unitConvertToInt(danmuCount.replace('弹幕', ''))
             detail.tags = tags.join(',')
 
-            console.log(item)
+            this.crewlerTransform.write(`Rank Video Detail: \n ${ util.inspect(item,{colors:true})}`)
+
             let rankItem: RankItemInfo = item
 
             RankService.saveAnchorDailyRanking(rankItem)
