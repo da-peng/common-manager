@@ -1,0 +1,60 @@
+import { AbstractBaseCrewler } from "./AbstractBaseCrewler";
+import { SpaceService } from '../service/space_service'
+import {StringUtil} from '../utils/string_utils'
+import * as util from 'util'
+/**
+ * 主播关注数，粉丝数，播放数周统计(上到排行榜的主播)
+ */
+
+export class AnchorFansWeekCrewler extends AbstractBaseCrewler {
+
+    /**
+     * 
+     * @param isHeadless 是否是无头模式
+     * @param crewlerTransform 记录执行过程
+     * @param args 其它参数
+     */
+    init(isHeadless: boolean,  crewlerTransform: any, ...args: any) {
+        super.runWithOutUrl(isHeadless, crewlerTransform, ...args)
+    }
+
+    async  parse(...args: any) {
+        /**从数据库中分页拿到主播的空间地址*/
+        let pageSize = 10
+        let pageIndex = await SpaceService.getTablePageNumber(pageSize)
+        for (let i = 0; i < pageIndex; i++) {
+            let anthorLinks = await SpaceService.getLimitAnthorLinks(pageSize, i)
+            for (let i of anthorLinks) {
+                let anthorId = i.id
+                let anthorLink = i.anthorLink
+                await this.page.goto(anthorLink,{waitUntil: 'domcontentloaded'})
+                this.crewlerTransform.write(`page navigation to ${anthorLink}`)
+
+                let statistics = await this.page.$eval('#navigator > div > div.n-inner.clearfix > div.n-statistics', (i) => {
+                    let followOther = i.querySelector('a.n-gz').textContent
+                    let fansFollow = i.querySelector('a.n-fs').textContent
+                    let totalPlay = i.querySelector('a.n-bf').textContent
+                    return {
+                        followOther:followOther,
+                        fansFollow:fansFollow,
+                        totalPlay:totalPlay
+                    }
+                })
+                this.crewlerTransform.write(`anchor fans statistics:\n ${util.inspect(statistics,{colors:true})}`)
+
+                let followOther = parseInt(statistics.followOther)
+                let fansFollow = StringUtil.unitConvertToInt(statistics.fansFollow)
+                let totalPlay = StringUtil.unitConvertToInt(statistics.totalPlay)
+                /**
+                 * 实现up主粉丝，播放，follow的信息
+                 */
+                await SpaceService.saveAnchorFansWeekStatistics(anthorId, followOther, fansFollow, totalPlay)
+            }
+        }
+    }
+
+    storeData(...args: any) {
+
+    }
+
+}

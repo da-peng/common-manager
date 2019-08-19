@@ -1,8 +1,8 @@
-import {RankCrewler} from './crewler/RankCrewler'
+import {RankWeekCrewler} from './crewler/RankWeekCrewler'
 import {ConnectionManage} from '../../server/src/utils/connection_manage'
 import { CrewlerTransform } from './utils/transform_manage'
 
-const rankCrewler = new RankCrewler()
+const rankCrewler = new RankWeekCrewler()
 ConnectionManage.init()
 let url = 'https://www.bilibili.com/ranking'
 

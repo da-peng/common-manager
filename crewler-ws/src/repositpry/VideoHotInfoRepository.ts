@@ -1,9 +1,9 @@
 import {EntityRepository, Repository} from "typeorm";
-import {VideoHotInfo} from "../entity/VideoHotInfo";
+import {RankVideoWeekHotInfo} from "../entity/RankVideoWeekHotInfo";
 import {IVideoHotInfo} from '../interface/VideoHotInfo'
 
-@EntityRepository(VideoHotInfo)
-export class VideoHotInfoRepository extends Repository<VideoHotInfo> {
+@EntityRepository(RankVideoWeekHotInfo)
+export class VideoHotInfoRepository extends Repository<RankVideoWeekHotInfo> {
 
     /**视频的热度信息是随时间变化的，这种允许重复 支持多行*/
     async createAndSave(videoHot:IVideoHotInfo) {
@@ -16,7 +16,7 @@ export class VideoHotInfoRepository extends Repository<VideoHotInfo> {
               return videoHotInfo
           }
         }
-        videoHotInfo = new VideoHotInfo();
+        videoHotInfo = new RankVideoWeekHotInfo();
         videoHotInfo.anchorId = videoHot.anchorId;
         videoHotInfo.danMuNum = videoHot.danMuNum;
         videoHotInfo.videoId = videoHot.videoId;

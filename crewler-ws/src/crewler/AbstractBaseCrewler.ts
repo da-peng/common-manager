@@ -13,8 +13,9 @@ export abstract class AbstractBaseCrewler {
     browser: Browser
     page: Page
     crewlerTransform:Transform
+    url:string=''
 
-    async run(isHeadless: boolean, url:string,crewlerTransform:any,...args: any) {
+    async runWithOutUrl(isHeadless: boolean ,crewlerTransform:any,...args: any) {
         /*
         * args
         0 true isHeadless 是否开启浏览器 
@@ -23,6 +24,27 @@ export abstract class AbstractBaseCrewler {
         3 pageNum
         */
         // console.log(args[0])
+        this.crewlerTransform = crewlerTransform
+        await this.config(isHeadless)
+        // console.log(args[1])
+        await this.parse(...args)
+        // await this.storeData(result)
+        await this.tearDwown()
+        // process.kill(args[3])
+    }
+
+    async run(isHeadless: boolean, url:string='',crewlerTransform:any,...args: any) {
+        /*
+        * args
+        0 true isHeadless 是否开启浏览器 
+        1 综合排序 最多点击 最新发布 最多弹幕 最多收藏
+        2 mongo 表后缀名控制 tableSuffix
+        3 pageNum
+        */
+        // console.log(args[0])
+        if(url===''){
+            url = this.url
+        }
         this.crewlerTransform = crewlerTransform
         await this.config(isHeadless)
         await this.start(url)
@@ -72,13 +94,13 @@ export abstract class AbstractBaseCrewler {
         /**
          * 使用 setRequestInterception() 拦截请求，屏蔽指定类型请求来加快加载速度
          */
-            // const blockTypes = new Set(['image', 'media', 'font'])
-            // await this.page.setRequestInterception(true)
-            // this.page.on('request', request => {
-            //     const type = request.resourceType()
-            //     const shouldBlock = blockTypes.has(type)
-            //     return shouldBlock ? request.abort() : request.continue()
-            // })
+        const blockTypes = new Set(['image', 'media', 'font'])
+        await this.page.setRequestInterception(true)
+        this.page.on('request', request => {
+            const type = request.resourceType()
+            const shouldBlock = blockTypes.has(type)
+            return shouldBlock ? request.abort() : request.continue()
+        })
         //对应扩展puppeteer-extra-plugin-block-resources
 
         // set a timeout of 8 minutes

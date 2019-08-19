@@ -6,9 +6,9 @@ import * as util from 'util'
 
 const unitConvertToInt = StringUtil.unitConvertToInt
 /**
- * 排行榜的爬虫
+ * 排行榜的爬虫，爬取（不同分类下排行榜100的主播信息，及视频信息，视频热度）
  */
-export class RankCrewler extends AbstractBaseCrewler {
+export class RankWeekCrewler extends AbstractBaseCrewler {
 
 
     init(isHeadless: boolean, url:string,crewlerTransform:any,...args: any) {
