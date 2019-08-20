@@ -11,6 +11,10 @@
       "outDir": "./build",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
-      "sourceMap": true
-   }
+      "sourceMap": true,
+   },
+   "exclude": ["./node_modules"],
+   "include": [
+      "../server/src"
+    ]
 }

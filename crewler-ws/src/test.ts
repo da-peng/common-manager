@@ -10,9 +10,11 @@ ws.onopen = function(evt) {
 	let jsonData = {
 		// task:'SpaceVideoWeekCrewler',
 		// task:'SpaceChannelAndTagsMouthCrewler',
-		task:'AnchorFansWeekCrewler',
+		task:'RankWeekCrewler',
+		
+		// task:'AnchorFansWeekCrewler',
 		ops:{
-			isheadless:false,
+			isheadless:true,
 			// type:'global'
 		}
 	}

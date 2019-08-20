@@ -19,8 +19,10 @@
     "noEmit": true,
     "jsx": "preserve"
   },
+  "exclude": ["./node_modules"],
   "include": [
     "src",
-    "./*.d.ts", "test"
+    "./*.d.ts", 
+    "test"
   ]
 }

@@ -5,28 +5,7 @@ import {IVideoHotInfo} from '../interface/VideoHotInfo'
 @EntityRepository(RankVideoWeekHotInfo)
 export class VideoHotInfoRepository extends Repository<RankVideoWeekHotInfo> {
 
-    /**视频的热度信息是随时间变化的，这种允许重复 支持多行*/
-    async createAndSave(videoHot:IVideoHotInfo) {
-        
-        let videoHotInfo = await this.getByVideoId(videoHot.videoId)
-        if (!!videoHotInfo){
-          let  currentDate =   await this.getFormatDate(new Date())
-          let  updateDate =  await this.getFormatDate(videoHotInfo.updateDate)
-          if (currentDate===updateDate){
-              return videoHotInfo
-          }
-        }
-        videoHotInfo = new RankVideoWeekHotInfo();
-        videoHotInfo.anchorId = videoHot.anchorId;
-        videoHotInfo.danMuNum = videoHot.danMuNum;
-        videoHotInfo.videoId = videoHot.videoId;
-        videoHotInfo.like = videoHot.like;
-        videoHotInfo.play = videoHot.play
-        videoHotInfo.pts =videoHot.pts
-        videoHotInfo.totalCoins=videoHot.totalCoins
-        videoHotInfo.view = videoHot.view
-        return this.manager.save(videoHotInfo)
-    }
+   
 
     async getFormatDate(date:Date) {
         var seperator1 = "-";

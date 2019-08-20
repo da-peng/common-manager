@@ -4,27 +4,7 @@ import { Anchor } from "../entity/Anchor";
 @EntityRepository(Anchor)
 export class AnchorRepository extends Repository<Anchor> {
 
-    /**唯一 */
-    async createAndSave(nickName: string, anchorLink: string, sex: string = 'male' || 'female' || '', ageGroup: string = '70后' || '80后' || '90后' || '00后' || '10后' || '') {
-
-        const anchor = new Anchor();
-        anchor.nickName = nickName
-        anchor.sex = sex
-        anchor.ageGroup = ageGroup
-        anchor.anchorLink = anchorLink
-
-        const isExist = await this.getByanchorLink(anchorLink)
-        if (isExist!!) {
-            if (isExist.nickName !== nickName) {
-                isExist.nickName = nickName
-                return this.manager.save(isExist);/**更新 */
-            } else {
-                return isExist
-            }
-        } else {
-            return this.manager.save(anchor);/**插入新的 */
-        }
-    }
+   
 
     getByNickNameAndAnchorLink(nickName: string, anchorLink: string): Promise<Anchor> {
         return this.createQueryBuilder('anchor')
@@ -50,9 +30,9 @@ export class AnchorRepository extends Repository<Anchor> {
      * @param pageSize 
      * @param pageIndex 
      */
-    getByanchorLinks(pageSize: number, pageIndex: number) {
+    getByPageAnchor(pageSize: number, pageIndex: number) {
         return this.createQueryBuilder('anchor')
-            .select('anchor.id,anchor.anchorLink')
+            .select('*')
             .limit(pageSize)
             .offset(pageIndex * pageSize)
             .getRawMany()

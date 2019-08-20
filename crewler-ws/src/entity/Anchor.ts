@@ -38,7 +38,7 @@ export class Anchor {
         {
             name: "UNIQUE",
             columns: [
-                "authorLink"
+                "anchorLink"
             ]
         }
     ]
