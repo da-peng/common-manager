@@ -5,15 +5,15 @@ import { Anchor } from "../entity/Anchor";
 export class AnchorRepository extends Repository<Anchor> {
 
     /**唯一 */
-    async createAndSave(nickName: string, authorLink: string, sex: string = 'male' || 'female' || '', ageGroup: string = '70后' || '80后' || '90后' || '00后' || '10后' || '') {
+    async createAndSave(nickName: string, anchorLink: string, sex: string = 'male' || 'female' || '', ageGroup: string = '70后' || '80后' || '90后' || '00后' || '10后' || '') {
 
         const anchor = new Anchor();
         anchor.nickName = nickName
         anchor.sex = sex
         anchor.ageGroup = ageGroup
-        anchor.authorLink = authorLink
+        anchor.anchorLink = anchorLink
 
-        const isExist = await this.getByAuchorLink(authorLink)
+        const isExist = await this.getByanchorLink(anchorLink)
         if (isExist!!) {
             if (isExist.nickName !== nickName) {
                 isExist.nickName = nickName
@@ -26,33 +26,33 @@ export class AnchorRepository extends Repository<Anchor> {
         }
     }
 
-    getByNickNameAndAuthorLink(nickName: string, authorLink: string): Promise<Anchor> {
+    getByNickNameAndAnchorLink(nickName: string, anchorLink: string): Promise<Anchor> {
         return this.createQueryBuilder('anchor')
-            .where(`anchor.nickName = :nickName OR anchor.authorLink= :authorLink`, { 'nickName': nickName, 'authorLink': authorLink })
+            .where(`anchor.nickName = :nickName OR anchor.anchorLink= :anchorLink`, { 'nickName': nickName, 'anchorLink': anchorLink })
             .getOne();
     }
 
-    getByAuchorLink(authorLink: string): Promise<Anchor> {
+    getByanchorLink(anchorLink: string): Promise<Anchor> {
         return this.createQueryBuilder('anchor')
-            .where(`anchor.authorLink= :authorLink`, { 'authorLink': authorLink })
+            .where(`anchor.authorLink= :anchorLink`, { 'anchorLink': anchorLink })
             .getOne();
     }
 
 
 
-    getByAuchorId(authorId: number) {
+    getByanchorId(anchorId: number) {
         return this.createQueryBuilder('anchor')
-            .where(`anchor.id = :authorId`, { 'authorId': authorId })
+            .where(`anchor.id = :anchorId`, { 'anchorId': anchorId })
             .getOne();
     }
     /**
-     * 查询出所有auchorLinks
+     * 查询出所有anchorLinks
      * @param pageSize 
      * @param pageIndex 
      */
-    getByAuchorLinks(pageSize: number, pageIndex: number) {
+    getByanchorLinks(pageSize: number, pageIndex: number) {
         return this.createQueryBuilder('anchor')
-            .select('anchor.id,anchor.authorLink')
+            .select('anchor.id,anchor.anchorLink')
             .limit(pageSize)
             .offset(pageIndex * pageSize)
             .getRawMany()

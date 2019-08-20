@@ -1,12 +1,11 @@
 import {Entity,  CreateDateColumn ,UpdateDateColumn,Column, PrimaryGeneratedColumn} from "typeorm";
 
 
-
 /**
- * 主播的第一个视频（爬取的数据）
+ * 主播的
  */
 @Entity()
-export class VideoInfo {
+export class RankVideoInfo {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -26,10 +25,10 @@ export class VideoInfo {
     @Column() /**视频创建时间 */
     videoCreateDate: Date;
 
-    @CreateDateColumn() /**视频创建时间 */
+    @CreateDateColumn() /**数据创建时间 */
     createDate: Date;
     
-    @UpdateDateColumn() /**视频创建时间 */
+    @UpdateDateColumn() /**数据更新时间 */
     updateDate: Date;
     uniques: [
         {

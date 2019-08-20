@@ -1,45 +1,66 @@
-import {EntityRepository, Repository} from "typeorm";
-import {Anchor} from "../entity/Anchor";
+import { EntityRepository, Repository } from "typeorm";
+import { Anchor } from "../entity/Anchor";
 
 @EntityRepository(Anchor)
 export class AnchorRepository extends Repository<Anchor> {
-    
+
     /**唯一 */
-    async createAndSave(nickName: string, authorLink:string,sex: string = 'male'||'female'||'',ageGroup:string='70后'||'80后'||'90后'||'00后'||'10后'||'') {
-        
+    async createAndSave(nickName: string, anchorLink: string, sex: string = 'male' || 'female' || '', ageGroup: string = '70后' || '80后' || '90后' || '00后' || '10后' || '') {
+
         const anchor = new Anchor();
         anchor.nickName = nickName
         anchor.sex = sex
-        anchor.ageGroup=ageGroup
-        anchor.authorLink = authorLink
-        
-        const isExist = await this.getByAuthorLink(authorLink)
-        if(isExist!!){
-            if(isExist.nickName!==nickName){
+        anchor.ageGroup = ageGroup
+        anchor.anchorLink = anchorLink
+
+        const isExist = await this.getByanchorLink(anchorLink)
+        if (isExist!!) {
+            if (isExist.nickName !== nickName) {
                 isExist.nickName = nickName
                 return this.manager.save(isExist);/**更新 */
-            }else{
+            } else {
                 return isExist
             }
-        }else{
+        } else {
             return this.manager.save(anchor);/**插入新的 */
         }
     }
-    
-    getByNickNameAndAuthorLink(nickName: string,authorLink:string): Promise<Anchor> {
-        return  this.createQueryBuilder('anchor')
-            .where(`anchor.nickName = :nickName OR anchor.authorLink= :authorLink`, { 'nickName': nickName, 'authorLink':authorLink})
+
+    getByNickNameAndAnchorLink(nickName: string, anchorLink: string): Promise<Anchor> {
+        return this.createQueryBuilder('anchor')
+            .where(`anchor.nickName = :nickName OR anchor.anchorLink= :anchorLink`, { 'nickName': nickName, 'anchorLink': anchorLink })
             .getOne();
     }
-     
-    getByAuthorLink(authorLink:string): Promise<Anchor> {
-        return  this.createQueryBuilder('anchor')
-            .where(`anchor.authorLink= :authorLink`, {'authorLink':authorLink})
+
+    getByanchorLink(anchorLink: string): Promise<Anchor> {
+        return this.createQueryBuilder('anchor')
+            .where(`anchor.authorLink= :anchorLink`, { 'anchorLink': anchorLink })
             .getOne();
     }
 
 
-    updateAnchorName(nickName:string){
-        return 
+
+    getByanchorId(anchorId: number) {
+        return this.createQueryBuilder('anchor')
+            .where(`anchor.id = :anchorId`, { 'anchorId': anchorId })
+            .getOne();
+    }
+    /**
+     * 查询出所有anchorLinks
+     * @param pageSize 
+     * @param pageIndex 
+     */
+    getByanchorLinks(pageSize: number, pageIndex: number) {
+        return this.createQueryBuilder('anchor')
+            .select('anchor.id,anchor.anchorLink')
+            .limit(pageSize)
+            .offset(pageIndex * pageSize)
+            .getRawMany()
+    }
+    /**
+     * 查询表的记录数
+     */
+    getRows() {
+        return this.createQueryBuilder('anchor').getCount()
     }
 }

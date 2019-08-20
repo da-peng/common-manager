@@ -14,7 +14,7 @@ export class Anchor {
     nickName: string;
 
     @Column()
-    authorLink:string
+    anchorLink:string
 
     @Column('enum',{
         nullable: true,

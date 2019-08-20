@@ -38,7 +38,7 @@ ws.on('connection', (ws, request, client) => {
                         ws.send(chunk);
                     })
                     let ops = ret.ops
-                    let isheadless = !!ops.isheadless ? ops.isheadless : true
+                    let isheadless = ops.isheadless!=null ? ops.isheadless : true
                     let type = !!ops.type ? ops.type : 'global'
                     let urls: string = config[type]
                     rankCrewler.init(isheadless, urls, crewlerTransform)
@@ -49,10 +49,10 @@ ws.on('connection', (ws, request, client) => {
                         ws.send(chunk);
                     })
                     let ops = ret.ops
-                    let isheadless = !!ops.isheadless ? ops.isheadless : true
-                    let type = !!ops.type ? ops.type : 'global'
-                    let urls: string = config[type]
-                    spaceVideoWeekCrewler.init(isheadless, urls, crewlerTransform)
+
+                    let isheadless = ops.isheadless!=null ? ops.isheadless : true
+
+                    spaceVideoWeekCrewler.init(isheadless,  crewlerTransform)
                 }else if(ret.task === 'SpaceChannelAndTagsMouthCrewler'){
                     const spaceChannelAndTagsMouthCrewler = new SpaceChannelAndTagsMouthCrewler()
     
@@ -60,7 +60,7 @@ ws.on('connection', (ws, request, client) => {
                         ws.send(chunk);
                     })
                     let ops = ret.ops
-                    let isheadless = !!ops.isheadless ? ops.isheadless : true
+                    let isheadless = ops.isheadless!=null ? ops.isheadless : true
                     spaceChannelAndTagsMouthCrewler.init(isheadless, crewlerTransform)
                 }else if(ret.task === 'AnchorFansWeekCrewler'){
                     const anchorFansWeekCrewler = new AnchorFansWeekCrewler()
@@ -69,7 +69,7 @@ ws.on('connection', (ws, request, client) => {
                         ws.send(chunk);
                     })
                     let ops = ret.ops
-                    let isheadless = !!ops.isheadless ? ops.isheadless : true
+                    let isheadless = ops.isheadless!=null ? ops.isheadless : true
                     anchorFansWeekCrewler.init(isheadless, crewlerTransform)
                 }else{
                     const crewlerTransform = new CrewlerTransform().init((chunk: any) => {

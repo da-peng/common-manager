@@ -8,10 +8,12 @@ var ws = new WebSocket("ws://localhost:8888/crewlerExecute");
 ws.onopen = function(evt) {
 	console.log("Connection open ...");
 	let jsonData = {
-		task:'bilibiliRankCrewler',
+		// task:'SpaceVideoWeekCrewler',
+		// task:'SpaceChannelAndTagsMouthCrewler',
+		task:'AnchorFansWeekCrewler',
 		ops:{
-			isheadless:true,
-			type:'global'
+			isheadless:false,
+			// type:'global'
 		}
 	}
 	console.log(JSON.stringify(jsonData))

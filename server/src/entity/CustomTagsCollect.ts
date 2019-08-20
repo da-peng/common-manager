@@ -1,10 +1,10 @@
 import {Entity,  CreateDateColumn ,UpdateDateColumn,Column, PrimaryGeneratedColumn} from "typeorm";
 
 /**
- * 视频标签汇总表 （标签表）
+ * 视频自定义视频搜索标签汇总表 （标签表）
  */
 @Entity()
-export class TagsCollect {
+export class CustomTagsCollect {
 
     @PrimaryGeneratedColumn()
     id: number;

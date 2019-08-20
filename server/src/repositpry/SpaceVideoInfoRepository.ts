@@ -1,13 +1,12 @@
-import {EntityRepository, Repository} from "typeorm";
-import {RankVideoInfo} from "../entity/RankVideoInfo";
+import { Repository, Entity, EntityRepository } from "typeorm";
+import { SpaceVideoInfo } from "../entity/SpaceVideoInfo";
 
-@EntityRepository(RankVideoInfo)
-export class VideoInfoRepository extends Repository<RankVideoInfo> {
 
-    async createAndSave(anchorId: number, tags:string,videoLink:string,videoTitle:string,videoCreateDate:Date) {
-        const videoInfo = new RankVideoInfo();
+@EntityRepository(SpaceVideoInfo)
+export class SpaceVideoInfoRepository extends Repository<SpaceVideoInfo>{
+    async createAndSave(anchorId: number,videoLink:string,videoTitle:string,videoCreateDate:Date) {
+        const videoInfo = new SpaceVideoInfo();
         videoInfo.anchorId = anchorId;
-        videoInfo.tags = tags;
         videoInfo.videoLink = videoLink;
         videoInfo.videoTitle = videoTitle
         videoInfo.videoCreateDate=videoCreateDate
@@ -31,6 +30,5 @@ export class VideoInfoRepository extends Repository<RankVideoInfo> {
         .where(`videoInfo.videoLink= :videoLink`, {'videoLink':videoLink})
         .getOne();
     }
-
 
 }

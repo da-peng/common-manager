@@ -94,13 +94,13 @@ export abstract class AbstractBaseCrewler {
         /**
          * 使用 setRequestInterception() 拦截请求，屏蔽指定类型请求来加快加载速度
          */
-        const blockTypes = new Set(['image', 'media', 'font'])
-        await this.page.setRequestInterception(true)
-        this.page.on('request', request => {
-            const type = request.resourceType()
-            const shouldBlock = blockTypes.has(type)
-            return shouldBlock ? request.abort() : request.continue()
-        })
+        // const blockTypes = new Set(['image', 'media', 'font'])
+        // await this.page.setRequestInterception(true)
+        // this.page.on('request', request => {
+        //     const type = request.resourceType()
+        //     const shouldBlock = blockTypes.has(type)
+        //     return shouldBlock ? request.abort() : request.continue()
+        // })
         //对应扩展puppeteer-extra-plugin-block-resources
 
         // set a timeout of 8 minutes
