@@ -47,6 +47,13 @@ export function getUid() {
     return  parseInt(localStorage.getItem('uid') as any)
 }
 
+export  const getUidAndToken = ()=>{
+    return {
+        uid: getUid(),
+        token: getToken()
+    }
+}
+
 export function removeToken() {
     encryptoLocalStorage.removeItem('token')
     encryptoLocalStorage.removeItem('uid')

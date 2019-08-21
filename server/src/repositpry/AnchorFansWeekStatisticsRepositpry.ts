@@ -4,12 +4,45 @@ import {AnchorFansWeekStatistics} from "../entity/AnchorFansWeekStatistics";
 @EntityRepository(AnchorFansWeekStatistics)
 export class AnchorFansWeekStatisticsRepositpry extends Repository<AnchorFansWeekStatistics> {
     /**
-     * 依据关注时间去重
+     * 
      * @param anchorId 
      */
-    getByAnthorId(anchorId:number){
+    getFansByAnthorId(anchorId:number){
         return this.createQueryBuilder('fans')
-            .where(`fans.id= :anchorId`, { 'anchorId': anchorId })
+            .select('fans.fansFollow,fans.totalPlay,fans.updateDate')
+            .where(`fans.anchorId= :anchorId`, { 'anchorId': anchorId })
+            .orderBy("fans.createDate", "DESC")
+            .getRawOne()
+    }
+
+    getFansOrderByFollow(pageIndex:number,pageSize:number){
+        return this.createQueryBuilder('fans')
+        .select("fans.anchorId, MAX(fans.totalPlay) as totalPlay, MAX(fans.fansFollow) as fansFollow")
+        .groupBy('fans.anchorId')
+        .orderBy("fansFollow",'DESC')
+        .limit(pageSize)
+        .offset(pageIndex * pageSize)
+        .getRawMany()
+    }
+
+    getFansOrderByFollowCount(){
+        return this.createQueryBuilder('fans')
+        .select("fans.anchorId, MAX(fans.totalPlay) as totalPlay, MAX(fans.fansFollow) as fansFollow")
+        .groupBy('fans.anchorId')
+        .orderBy("fansFollow",'DESC')
+        .getCount()
+    }
+
+
+    /**
+     * 
+     * @param anchorId 
+     */
+    getDynamicFansByAnthorId(anchorId:number){
+        return this.createQueryBuilder('fans')
+            .select('fans.fansFollow,fans.totalPlay,fans.createDate')
+            .where(`fans.anchorId= :anchorId`, { 'anchorId': anchorId })
+            .orderBy("fans.createDate", "DESC")
             .getMany()
     }
 

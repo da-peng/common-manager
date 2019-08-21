@@ -11,7 +11,7 @@ export class AnchorFansWeekStatistics {
     id: number;
 
     @Column()
-    authorId: number;
+    anchorId: number;
     /**UP主关注的人 */
     @Column()
     followOther:number;

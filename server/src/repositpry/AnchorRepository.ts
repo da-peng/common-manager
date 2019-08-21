@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Anchor } from "../entity/Anchor";
+import { AnchorFansWeekStatistics } from "../entity/AnchorFansWeekStatistics";
 
 @EntityRepository(Anchor)
 export class AnchorRepository extends Repository<Anchor> {
@@ -18,7 +19,14 @@ export class AnchorRepository extends Repository<Anchor> {
             .getOne();
     }
 
-
+    getAnchorFans(anchorId:number) {
+            return this.createQueryBuilder('anchor')
+            .leftJoinAndMapOne('anchor.fans',AnchorFansWeekStatistics,'fans','fans.anchorId=anchor.id')
+            .where(`anchor.id =:anchorId`,{'anchorId':anchorId})
+            .orderBy('fans.fansFollow',"DESC")
+            .getMany()
+       
+    }
 
     getByanchorId(anchorId: number) {
         return this.createQueryBuilder('anchor')

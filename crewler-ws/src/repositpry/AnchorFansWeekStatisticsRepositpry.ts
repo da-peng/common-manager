@@ -8,7 +8,7 @@ export class AnchorFansWeekStatisticsRepositpry extends Repository<AnchorFansWee
     async createAndSave(anchorId: number, followOther:number,fansFollow:number,totalPlay:number) {
 
         const anchorFansWeekStatistics = new AnchorFansWeekStatistics();
-        anchorFansWeekStatistics.authorId= anchorId
+        anchorFansWeekStatistics.anchorId= anchorId
         anchorFansWeekStatistics.followOther = followOther
         anchorFansWeekStatistics.fansFollow = fansFollow
         anchorFansWeekStatistics.totalPlay = totalPlay

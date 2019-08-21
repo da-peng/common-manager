@@ -85,7 +85,10 @@ export class MenuNavigation extends AbstractComponent<IProps, IState>{
                             {subMenus.map(subMenu => {
                                 return (
                                     <Item key={subMenu.path}>
-                                        <Link to={subMenu.path}>{subMenu.title}</Link>
+                                        <Link to={subMenu.path}> 
+                                        <Icon type={subMenu.menuIcon} /> 
+                                        {subMenu.title}
+                                        </Link>
                                     </Item>
                                 )
                             })}

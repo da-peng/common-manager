@@ -42,7 +42,7 @@ class UserDropdownClass extends AbstractComponent<IProps, IState> {
                     uid: uid,
                     componentUUID: this.getUUID()
                 })
-                console.log(data)
+                // console.log(data)
                 
                 if (data && data.status === Message.get('requestOk').status) {
                     this.componentStateChange('complete')
@@ -59,7 +59,7 @@ class UserDropdownClass extends AbstractComponent<IProps, IState> {
 
     onLogout =()=> { // bind.this，箭头函数可以直接bind.this
         authService.removeAuthFormStore()
-        console.log(this.props)
+        // console.log(this.props)
         this.props.history.replace('/login')
     }
 

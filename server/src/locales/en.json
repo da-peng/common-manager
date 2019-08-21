@@ -18,5 +18,13 @@
     "passwordInvalid":{
         "message": "username or password invalid",
         "status": 20004
+    },
+    "dataNull":{
+        "message":"data is null",
+        "status": 20005
+    },
+    "authorIsNotExist":{
+        "message":"author is not exist",
+        "status": 20006
     }
 }

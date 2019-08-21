@@ -42,15 +42,14 @@ export class AuthTokenHandle {
             const checkUser = await UserService.checkUserById(userId);
 
             const tokenObj:AuthToken = await this.decryptToken(token)
-            // console.log(tokenObj)
 
             const tokenUid = tokenObj.uid
-            // console.log(typeof tokenObj.date)
 
             validUser = checkUser.success;
 
-            if (validUser) {
+            if (validUser) {      
                 if (tokenUid.toString() === userId) {
+
                     if (DateUtil.diff(new Date(tokenObj.date), new Date()) > 24) {
                         //token时间>24h token重构造
                         ctx.header.token = this.generateToken(userId)

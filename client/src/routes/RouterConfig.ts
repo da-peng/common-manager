@@ -45,15 +45,15 @@ export const RouterConfig: Array<IRouteItem> = [
         remark: '一级路由',
         component:AsyncAdmin,
         children:[
-            {
-                title: '仪表盘',
-                showMenu: true,
-                menuIcon: 'dashboard',
-                component: AsyncDashboard,
-                path: 'dashboard',
-                remark:'一级菜单',
-                breadcrumbName:'仪表盘',
-            },
+            // {
+            //     title: '仪表盘',
+            //     showMenu: true,
+            //     menuIcon: 'dashboard',
+            //     component: AsyncDashboard,
+            //     path: 'dashboard',
+            //     remark:'一级菜单',
+            //     breadcrumbName:'仪表盘',
+            // },
             {
                 title: '内容创作者',
                 showMenu: true,
@@ -62,23 +62,42 @@ export const RouterConfig: Array<IRouteItem> = [
                 remark:'一级菜单',
                 breadcrumbName:'内容创作者',
                 children:[
+                    // {
+                    //     title: '萌新',
+                    //     path: 'sprout',
+                    //     // component: AsyncWorkplace,
+                    //     showMenu: true,
+                    //     menuIcon: 'file-excel',
+                    //     remark: '二级路由',
+                    //     breadcrumbName:'萌新'
+                    // },
                     {
-                        title: '萌新',
-                        path: 'sprout',
-                        // component: AsyncWorkplace,
-                        showMenu: true,
-                        menuIcon: 'file-excel',
-                        remark: '二级路由',
-                        breadcrumbName:'萌新'
-                    },
-                    {
-                        title: '职业主播',
+                        title: '热度主播',
                         path: 'profession',
                         // component: AsyncWorkplace,
                         showMenu: true,
-                        menuIcon: 'file-excel',
+                        menuIcon: 'smile',
                         remark: '二级路由',
-                        breadcrumbName:'职业主播'
+                        breadcrumbName:'热度主播'
+                    },
+                ]
+            },
+            {
+                title: '任务管理',
+                showMenu: true,
+                menuIcon: 'setting',
+                path: 'Schedule',
+                remark:'一级菜单',
+                breadcrumbName:'任务管理',
+                children:[
+                    {
+                        title: '爬虫列表',
+                        path: 'crewler',
+                        // component: AsyncWorkplace,
+                        showMenu: true,
+                        menuIcon: 'schedule',
+                        remark: '二级路由',
+                        breadcrumbName:'爬虫列表'
                     },
                 ]
             }

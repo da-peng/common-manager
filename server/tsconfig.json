@@ -8,13 +8,11 @@
       "target": "es5",
       "module": "commonjs",
       "moduleResolution": "node",
-      "outDir": "./build",
+      "outDir": "build",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
-      "sourceMap": true,
+      "sourceMap": true
    },
-   "exclude": ["./node_modules"],
-   "include": [
-      "../server/src"
-    ]
+   "exclude": ["node_modules"],
+   "include": ["src"]
 }
