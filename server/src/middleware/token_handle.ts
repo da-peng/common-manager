@@ -34,7 +34,10 @@ export class AuthTokenHandle {
      */
     async validUser(ctx: Koa.Context): Promise<boolean> {
         
-        const userId = ctx.request.body.uid ||ctx.request.query.uid ;
+        let userId:number = ctx.request.body.uid ||ctx.request.query.uid ;
+        if(typeof(userId)=='string'){
+            userId = parseInt(userId)
+        }
         const token = ctx.request.header.token;
         let validUser: boolean = !!userId
         if (userId) {
@@ -48,7 +51,7 @@ export class AuthTokenHandle {
             validUser = checkUser.success;
 
             if (validUser) {      
-                if (tokenUid.toString() === userId) {
+                if (tokenUid === userId) {
 
                     if (DateUtil.diff(new Date(tokenObj.date), new Date()) > 24) {
                         //token时间>24h token重构造
