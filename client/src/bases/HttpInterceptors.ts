@@ -5,6 +5,7 @@ import { store } from '../reducers/Store'
 // import {LOGOUT} from '../reducers/Auth/ActionsType'
 // import {removeToken} from '../utils/EncryptLocalStorage'
 import { notice } from '../utils/Notification/Notification'
+import { getUid } from '../utils/EncryptLocalStorage';
 
 const axiosInstance = axios.create(
     {
@@ -83,7 +84,7 @@ const getResponseComponentUUID = (instance: any) => {
     let componentUUID: string = ''
     if (instance.method === 'post' && instance.data) {
         componentUUID = JSON.parse(instance.data).componentUUID
-    }else if (instance.method === 'get' && instance.params){
+    } else if (instance.method === 'get' && instance.params) {
         componentUUID = instance.params.componentUUID
     }
     return componentUUID
@@ -102,9 +103,18 @@ axiosInstance.interceptors.request.use(requestConfig => {
     // if (config.method === 'post'&& config.data){
     //     delete config.data['componentUUID']
     // }
-    // 将token渐入到 hearder中
+    // 将token嵌入到 hearder中
     if (auth.token) {
         requestConfig.headers.token = auth.token
+    }
+    /**加入uid */
+    let uid = localStorage.getItem('uid')
+    if (uid) {
+        if (requestConfig.method === 'get' && requestConfig.params) {
+            requestConfig.params['uid'] = uid
+        } else if (requestConfig.method === 'post' && requestConfig.data) {
+            requestConfig.data['uid'] = uid
+        }
     }
     // url 配置
     requestConfig.url = requestConfig.url ? requestConfig.url : undefined
@@ -126,7 +136,7 @@ axiosInstance.interceptors.response.use(response => {
         // location.replace('/login')
 
         // removeAuthFormStore()
-         
+
         notice({
             noticeType: 'warn',
             message: response.data.status,
@@ -134,7 +144,7 @@ axiosInstance.interceptors.response.use(response => {
             duration: 3,
         })
     }
-   
+
 
     return response;
 }, errorHandle);

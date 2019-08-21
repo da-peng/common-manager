@@ -44,7 +44,7 @@ export  function setUid(uid: string) {
 }
 
 export function getUid() {
-    return  parseInt(localStorage.getItem('uid') as any)
+    return parseInt(localStorage.getItem('uid') as any)
 }
 
 export  const getUidAndToken = ()=>{

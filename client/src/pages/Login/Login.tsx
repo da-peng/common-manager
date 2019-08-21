@@ -6,7 +6,7 @@ import Login from '../../components/Login/Login'
 import { AbstractPage, IAbstractPageProps, IAbstractPageState } from '../../bases/AbstractPage';
 import { FormComponentProps } from 'antd/lib/form';
 import { RouteComponentProps } from 'react-router';
-import { authService, IAuthLogin } from '../../services/Auth'
+import { AuthService, IAuthLogin } from '../../services/Auth'
 import { setToken, setUid } from '../../utils/EncryptLocalStorage'
 import LoginBackground from '../../asset/media/login-bg.jpg'
 
@@ -54,7 +54,7 @@ class LoginPageClass extends AbstractPage<IProps, IState>{
   async onLoginSuccess(data: IAuthLogin) {
     setToken(data.token)
     setUid(data.uid.toString())
-    authService.dispatchAuthToStore()
+    AuthService.dispatchAuthToStore()
     this.gotoAdminPage()
   }
 

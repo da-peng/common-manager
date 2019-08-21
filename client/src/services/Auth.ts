@@ -19,12 +19,8 @@ export interface IAuthServiceLogin extends IReuqestBase {
 
 
 /**
- * 获取用户信息接口参数
+ * 获取登录用户信息接口参数
  */
-export interface IAuthinfos extends IReuqestBase {
-    uid:number
-}
-
 
 export interface IAuthLogin {
     uid: number;
@@ -34,7 +30,7 @@ export interface IAuthLogin {
 /**
  * 用户相关服务接口
  */
-export class authService {
+export class AuthService {
     /**
      * 登录
      */
@@ -52,7 +48,7 @@ export class authService {
      /**
      * 获取用户信息
      */
-    static getAuthinfos=(params: IAuthinfos)=> {
+    static getAuthinfos=(params: IReuqestBase)=> {
         return request.get<IResponseBase<IAuthInfo>>('/userinfo',{
         params:{
             ...params

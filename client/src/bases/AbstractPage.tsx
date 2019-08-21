@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { request } from './HttpInterceptors'
-
+import { store } from '../reducers/Store';
+import {SHOW,HIDEN} from '../reducers/Loading/ActionsType'
 export interface IAbstractPageProps {
     className?: string
 }
@@ -60,6 +61,23 @@ export abstract class AbstractPage<P extends IAbstractPageProps, S extends IAbst
         }
     }
     
+    /**
+     * 通过redux显示全局spin
+     */
+    showLoading(){
+        store.dispatch({
+            type: SHOW
+        })
+    }
+
+    /**
+     * 通过redux隐藏全局spin
+     */
+    hidenLoading() {
+        store.dispatch({
+            type: HIDEN
+        })
+    }
     /**
      * 不要重写，请通过实现getRenderContent
      */

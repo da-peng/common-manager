@@ -2,7 +2,7 @@ import * as React from 'react'
 import { LocaleProvider } from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
 import RoutesComponent from '../routes/RoutesComponent'
-import { authService } from '../services/Auth'
+import { AuthService } from '../services/Auth'
 import { GlobalSpin } from '../components/PageLoading/PageLoading'
 import { ErrorHandler } from '../components/ErrorHandler/ErrorHandler';
 
@@ -19,7 +19,7 @@ interface IState {}
 
 class App extends React.Component<IProps, IState> {
     componentDidMount() {
-        authService.dispatchAuthToStore()
+        AuthService.dispatchAuthToStore()
     }
     
     render() {

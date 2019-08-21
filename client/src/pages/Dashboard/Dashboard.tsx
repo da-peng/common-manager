@@ -15,7 +15,6 @@ class DashboardPageContent extends AbstractPage<IProps, IState>{
 
 
     getRenderContent() {
-
         return (<div>
             404
         </div>)

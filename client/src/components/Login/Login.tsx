@@ -2,7 +2,7 @@ import styles from './Login.less'
 import * as React from 'react'
 import { Form, Button, Input, Icon, Row } from 'antd'
 import { IAbstractComponentProps, AbstractComponent, IAbstractComponentState } from '../../bases/AbstractComponent'
-import { authService, IAuthLogin } from '../../services/Auth'
+import { AuthService, IAuthLogin } from '../../services/Auth'
 import { Message } from '../../utils/Message'
 import { FormComponentProps } from 'antd/lib/form';
 import logo from '../../asset/svg/logo.svg'
@@ -42,7 +42,7 @@ class LoginClass extends AbstractComponent<IProps, IState> {
             // 发送请求 //await 拿到 promise 的数据 如果不用await需要用then拿到数据
 
             try {
-                const { data } = await authService.login({
+                const { data } = await AuthService.login({
                     username: values.username,
                     password: values.password,
                     componentUUID: this.getUUID()
