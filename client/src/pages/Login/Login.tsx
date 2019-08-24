@@ -39,7 +39,6 @@ class LoginPageClass extends AbstractPage<IProps, IState>{
 
 
 
-
   /**
    * 登录成功之后，token和用户信息全部存在redux中，不用state传递
    */

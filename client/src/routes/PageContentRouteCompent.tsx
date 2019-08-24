@@ -2,7 +2,7 @@ import * as React from 'react'
 import { RouterConfig, IRouteItem, IExRouteItem } from './RouterConfig'
 import { PrivateRoute } from './PrivateRouteComponent'
 import { Route, Switch,  RouteComponentProps, Redirect } from 'react-router-dom'
-import { findAdminRouterConfig } from '../components/Admin/Navigation/NavigationConfig';
+import { findAdminRouterConfig } from '../components/Admin/Navigation/NavigationUtils';
 
 interface IProps extends  RouteComponentProps{
     redirect?: string

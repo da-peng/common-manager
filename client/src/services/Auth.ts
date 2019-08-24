@@ -34,8 +34,8 @@ export class AuthService {
     /**
      * 登录
      */
-    static login=(params: IAuthServiceLogin)=> {
-        return request.post<IResponseBase<IAuthLogin>>('/login', params)
+    static login=(data: IAuthServiceLogin)=> {
+        return request.post<IResponseBase<IAuthLogin>>('/login', data)
     }
 
     /**

@@ -22,7 +22,7 @@ class RoutesComponent extends React.Component<IProps> {
                 needAuthorized={item.needAuthorized}
                 // 一定要有, 只要唯一就行
                 key={item.path} 
-                // 如果是二级路由,没有子路由了 就非精准匹配一级路由 ,精准匹配2级路由  true精准， flase
+                // 如果是二级路由,没有子路由了 就模糊匹配一级路由 ,精准匹配2级路由  true精准， flase
                 exact={item.children && item.children.length ? false : true} 
                 path={item.path}
                 component={item.component}

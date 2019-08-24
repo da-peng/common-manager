@@ -3,5 +3,5 @@ export interface ResponseObject {
     status:number
     data?:any
     page?:number
-    totalPage?:number
+    total?:number
 }

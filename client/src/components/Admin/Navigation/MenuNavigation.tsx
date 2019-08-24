@@ -5,7 +5,7 @@ import { IExRouteItem } from '../../../routes/RouterConfig'
 import { RouteComponentProps } from 'react-router';
 import { MenuProps } from 'antd/lib/menu'
 import { Link } from 'react-router-dom';
-import { findRouterByPath } from './NavigationConfig'
+import { findRouterByPath } from './NavigationUtils'
 const { SubMenu, Item } = Menu;
 
 interface IProps extends IAbstractComponentProps, RouteComponentProps<any> {
@@ -13,7 +13,8 @@ interface IProps extends IAbstractComponentProps, RouteComponentProps<any> {
 }
 
 interface IState extends IAbstractComponentState {
-
+    openKeys?:string[]
+    selectedKeys?:string[]
 }
 // 这种写法有问题， 抽象类 泛型
 // class MenuNavigation<P extends IAbstractComponentProps,S extends IAbstractComponentState>extends AbstractComponent<P,S>{
@@ -22,7 +23,9 @@ interface IState extends IAbstractComponentState {
 
 
 export class MenuNavigation extends AbstractComponent<IProps, IState>{
-    state: IState = {};
+    state: IState = {
+        openKeys:[]
+    };
 
     displayName: string = 'MenuNavigation'
 
@@ -40,26 +43,106 @@ export class MenuNavigation extends AbstractComponent<IProps, IState>{
     }
 
 
+    componentDidMount(){
+        const{path,url} = this.props.match
+        // console.log(path,url)
+        let { pathname }= this.props.location
+        if (pathname==='/admin'){
+            pathname='/admin/dashboard'
+        }
+        let selectedKeys: Array<string> = []
+        let openKeys: Array<string> = []
+        // console.log(pathname)
+        this.getAdminRoutes().forEach(item => {
+            // console.log(item)
+            if (item.path === pathname) {
+                // 选中 可以1个
+                selectedKeys.push(item.path || '')
+                // 展开 可以多个
+                openKeys.push(item.parent || '')
+            }
+        })
+
+        this.setState({
+            selectedKeys:selectedKeys,
+            openKeys:openKeys
+        })
+  
+        window.onpopstate = ()=> {
+            const {pathname } = this.props.location;
+            this.onSelectedAndOpenKeys(pathname)
+        }
+
+    }
+
+    onSelectedAndOpenKeys= (pathname:string)=>{
+        let selectedKeys: Array<string> = []
+        let openKeys: Array<string> = []
+        this.getAdminRoutes().forEach(item => {
+            if (item.path === pathname) {
+                // 选中 可以1个
+                selectedKeys.push(item.path || '')
+                // 展开 可以多个
+                openKeys.push(item.parent || '')
+            }
+        })
+
+        this.setState({
+            selectedKeys,
+            openKeys
+        })
+    }
+
+    onClick = (e:any) => {
+
+        let selectedKeys: Array<string> = []
+        let openKeys: Array<string> = []
+        this.getAdminRoutes().forEach(item => {
+            if (item.path === e.key) {
+                // 选中 可以1个
+                selectedKeys.push(item.path || '')
+                // 展开 可以多个
+                openKeys.push(item.parent || '')
+            }
+        })
+        this.setState({
+            selectedKeys,
+            openKeys
+        });
+    }
+
+    onOpenChange = (openKeys:any) => {
+        const latestOpenKey = openKeys[1]
+
+        let newOpenKeys: Array<string> = openKeys
+        this.getAdminRoutes().forEach(item => {
+            
+            if (latestOpenKey===item.parent) {
+                // 展开 可以多个
+                newOpenKeys = latestOpenKey ? [latestOpenKey] : []
+            }
+        })
+
+        this.setState({
+            openKeys:newOpenKeys
+        });
+    }
+
     /**
      * 获限sider menu属性
      */
     getMenuProps(): MenuProps {
-        const { pathname } = this.props.location
-        let defaultSelectedKeys: Array<string> = []
-        let defaultOpenKeys: Array<string> = []
-        this.getAdminRoutes().forEach(item => {
-            if (item.path === pathname) {
-                // 选中 可以1个
-                defaultSelectedKeys.push(item.path || '')
-                // 展开 可以多个
-                defaultOpenKeys.push(item.parent || '')
-            }
-        })
+
+        const{selectedKeys,openKeys} =this.state
         return {
+            
             theme: 'dark',
             mode: 'inline',
-            defaultSelectedKeys,  //[]
-            defaultOpenKeys  //[]
+            onOpenChange:this.onOpenChange,
+            onClick:this.onClick,
+            selectedKeys:selectedKeys,
+            openKeys:openKeys
+          
         }
     }
 
@@ -114,7 +197,7 @@ export class MenuNavigation extends AbstractComponent<IProps, IState>{
     }
 
     getRenderContent() {
-
+       
         return (
             <Menu {...this.getMenuProps()}>
                 {this.getMenusContext()}

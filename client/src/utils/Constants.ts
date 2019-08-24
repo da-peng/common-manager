@@ -1,7 +1,7 @@
 /**
  * 管理首页地址,首页直接展示仪表盘
  */
-export const ADMIN = '/admin'
+export const ADMIN = '/admin/dashboard'
 /**
  * 登录页页地址
  */

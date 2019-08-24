@@ -1,4 +1,4 @@
-import {AsyncLogin, AsyncAdmin,AsyncDashboard} from '../dynamicLoad/DynamicLoad'
+import {AsyncLogin, AsyncAdmin,AsyncAnchor,AsyncDashboard,AsyncAnchorDetail} from '../dynamicLoad/DynamicLoad'
 /**
  * 用于对「对象的形状（Shape）」进行描述,路由配置中 需要哪些
  */
@@ -45,40 +45,41 @@ export const RouterConfig: Array<IRouteItem> = [
         remark: '一级路由',
         component:AsyncAdmin,
         children:[
-            // {
-            //     title: '仪表盘',
-            //     showMenu: true,
-            //     menuIcon: 'dashboard',
-            //     component: AsyncDashboard,
-            //     path: 'dashboard',
-            //     remark:'一级菜单',
-            //     breadcrumbName:'仪表盘',
-            // },
+            {
+                title: '仪表盘',
+                showMenu: true,
+                menuIcon: 'dashboard',
+                component: AsyncDashboard,
+                path: 'dashboard',
+                remark:'一级菜单',
+                breadcrumbName:'仪表盘',
+            },
             {
                 title: '内容创作者',
                 showMenu: true,
                 menuIcon: 'crown',
-                path: 'anchor',
+                path: 'creators',
                 remark:'一级菜单',
                 breadcrumbName:'内容创作者',
                 children:[
-                    // {
-                    //     title: '萌新',
-                    //     path: 'sprout',
-                    //     // component: AsyncWorkplace,
-                    //     showMenu: true,
-                    //     menuIcon: 'file-excel',
-                    //     remark: '二级路由',
-                    //     breadcrumbName:'萌新'
-                    // },
                     {
                         title: '热度主播',
-                        path: 'profession',
-                        // component: AsyncWorkplace,
+                        path: 'anchor',
+                        component: AsyncAnchor,
                         showMenu: true,
                         menuIcon: 'smile',
-                        remark: '二级路由',
-                        breadcrumbName:'热度主播'
+                        remark: '子菜单',
+                        breadcrumbName:'热度主播',
+                        children:[
+                            {
+                                title: '详情',
+                                path: 'detail',
+                                component: AsyncAnchorDetail,
+                                showMenu: false,
+                                remark: '展示详情',
+                                breadcrumbName:'详情1'
+                            }
+                        ]
                     },
                 ]
             },

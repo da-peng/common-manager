@@ -7,6 +7,23 @@ import { AnchorFansWeekStatistics } from "../entity/AnchorFansWeekStatistics";
 
 export class AnchorService {
 
+
+
+      /**
+     * 更新主播信息（只限年龄，性别）{ uid:,anchorId:,sex:,ageGroup:,}
+     */
+    static async updateAnchorUserInfoByLink(anchorLink:string,sex:string,ageGroup:string){
+        const connection = await getConnection()
+        let anchorRepository = connection.getCustomRepository(AnchorRepository)
+        const ret = await anchorRepository.createQueryBuilder().update(Anchor)
+                                .set({ sex:sex,ageGroup:ageGroup })
+                                .where("anchorLink = :anchorLink", { anchorLink: anchorLink })
+                                .execute();
+        console.log(ret)
+        return {success:ret!! , ...!!ret ? Message.get('requestOk'): Message.get('authorIsNotExist'),data:ret}
+    }
+
+
     /**
      * 更新主播信息（只限年龄，性别）{ uid:,anchorId:,sex:,ageGroup:,}
      */
@@ -45,17 +62,7 @@ export class AnchorService {
         }
 
     }
-    /**
-     * 按粉丝数排序
-     */
-    static async getAnchorFansById(anchorId:number) {
-        const connection = await getConnection()
-        let anchorRepository = connection.getCustomRepository(AnchorRepository)
-        
-        let ret = await anchorRepository.getAnchorFans(anchorId)
-        
-        return {success:ret!! , ...!!ret ? Message.get('requestOk'): Message.get('dataNull'),data:ret}
-    }
+
     /**
      * getfansOrderByFollow
      * @param pageSize 
@@ -65,14 +72,14 @@ export class AnchorService {
         const connection = await getConnection()
         let anchorFansWeekStatisticsRepositpry = connection.getCustomRepository(AnchorFansWeekStatisticsRepositpry)
         let anchorRepository = connection.getCustomRepository(AnchorRepository)
-        let fans = await anchorFansWeekStatisticsRepositpry.getFansOrderByFollow(pageIndex,pageSize)
+        let fans = await anchorFansWeekStatisticsRepositpry.getFansOrderByFollow(pageIndex==0?pageIndex:pageIndex-1,pageSize)
         let count = await anchorFansWeekStatisticsRepositpry.getFansOrderByFollowCount()
-        let pageTotal:number
-        if (count > pageSize) {
-            pageTotal = Math.ceil(count / pageSize)//向上取整
-        } else {
-            pageTotal = 1
-        }
+        // let pageTotal:number
+        // if (count > pageSize) {
+        //     pageTotal = Math.ceil(count / pageSize)//向上取整
+        // } else {
+        //     pageTotal = 1
+        // }
         let ret = []
         for (let index = 0; index < fans.length; index++) {
             const fan =  fans[index]
@@ -86,7 +93,7 @@ export class AnchorService {
                 ...fan
             })
         }
-        return {success:ret!! , ...!!ret ? Message.get('requestOk'): Message.get('dataNull'),page:pageIndex,pageTotal:pageTotal,data:ret}
+        return {success:ret!! , ...!!ret ? Message.get('requestOk'): Message.get('dataNull'),page:pageIndex,total:count,data:ret}
     }
 
     /**
@@ -129,12 +136,16 @@ export class AnchorService {
     /**
      * 获得当前用户的 粉丝统计 时序动态数据 多日来fans的变化
      */
-    static async getAnchorFansWeekStatisticsById(anchorId:number) {
-        const connection = await getConnection()
-        let anchorFansWeekStatisticsRepositpry = connection.getCustomRepository(AnchorFansWeekStatisticsRepositpry)
-        let fans = await anchorFansWeekStatisticsRepositpry.getDynamicFansByAnthorId(anchorId)
+    static async getAnchorFansWeekStatisticsById(anchorLink:string,startDate:Date,endDate:Date) {
 
-        return {success:fans!! , ...!!fans ? Message.get('requestOk'): Message.get('dataNull'),result:fans}
+        const connection = await getConnection()
+        const anchorRepository = connection.getCustomRepository(AnchorRepository)
+        const anchorFansWeekStatisticsRepositpry = connection.getCustomRepository(AnchorFansWeekStatisticsRepositpry)
+        const anchor = await anchorRepository.getByanchorLink(anchorLink)
+        const anchorId = anchor.id
+        let fans = await anchorFansWeekStatisticsRepositpry.getDynamicFansByAnthorId(anchorId,startDate,endDate)
+        console.log(fans)
+        return {success:fans!! , ...!!fans ? Message.get('requestOk'): Message.get('dataNull'),data:fans}
     }
 
     /**

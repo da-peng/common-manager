@@ -2,7 +2,7 @@ import * as React from 'react'
 import { IAbstractComponentProps, AbstractComponent, IAbstractComponentState } from '../../../bases/AbstractComponent'
 import { RouterConfig, IRouteItem, IExRouteItem} from '../../../routes/RouterConfig'
 import { RouteComponentProps } from 'react-router';
-import { findAdminRouterConfig } from './NavigationConfig';
+import { findAdminRouterConfig } from './NavigationUtils';
 import { Breadcrumb } from 'antd';
 import styles from './Navigation.less'
 

@@ -26,7 +26,7 @@ anchorRouter.post('/anchorList',async (ctx)=>{
         message: result.message,
         status: result.status,
         page:result.page,
-        totalPage:result.pageTotal,
+        total:result.total,
     }
     
     responseObj.data = {
@@ -40,10 +40,10 @@ anchorRouter.post('/anchorList',async (ctx)=>{
  * 更新主播信息
  */
 anchorRouter.post('/updateAnchorInfo',async (ctx)=>{
-    let anchorId = ctx.request.body.anchorId
+    let anchorLink = ctx.request.body.anchorLink
     let sex = ctx.request.body.sex
     let ageGroup = ctx.request.body.ageGroup
-    let result = await AnchorService.updateAnchorUserInfo(anchorId,sex,ageGroup)
+    let result = await AnchorService.updateAnchorUserInfoByLink(anchorLink,sex,ageGroup)
 
     const responseObj:ResponseObject = {
         message: result.message,
@@ -60,15 +60,20 @@ anchorRouter.post('/updateAnchorInfo',async (ctx)=>{
 /**
  * ?uid=
  */
-anchorRouter.get('/anchorFansStatistics',async (ctx)=>{
-    let anchorId = ctx.request.query.anchorId
-    let result =await AnchorService.getAnchorFansWeekStatisticsById(anchorId)
+anchorRouter.post('/anchorFansStatistics',async (ctx)=>{
+    let anchorLink = ctx.request.body.anchorLink
+    let startDate = ctx.request.body.startDate
+    let endDate = ctx.request.body.endDate
+
+    let result = await AnchorService.getAnchorFansWeekStatisticsById(anchorLink,startDate,endDate)
     const responseObj:ResponseObject = {
         message: result.message,
         status:result.status
     }
-    responseObj.data = {
-        data:result.data
+    
+    responseObj.data = []
+    for (const i of result.data) {
+        responseObj.data.push(i)
     }
     ctx.body = responseObj
 })

@@ -15,7 +15,7 @@ export class AnchorRepository extends Repository<Anchor> {
 
     getByanchorLink(anchorLink: string): Promise<Anchor> {
         return this.createQueryBuilder('anchor')
-            .where(`anchor.authorLink= :anchorLink`, { 'anchorLink': anchorLink })
+            .where(`anchor.anchorLink= :anchorLink`, { 'anchorLink': anchorLink })
             .getOne();
     }
 

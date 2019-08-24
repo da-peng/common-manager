@@ -13,6 +13,7 @@ interface IProps extends IAbstractPageProps, RouteComponentProps<any> { }
 
 interface IState extends IAbstractPageState {
     collapsed?: boolean,
+    value?:number
 }
 
 class AdminPageClass extends AbstractPage<IProps, IState>{

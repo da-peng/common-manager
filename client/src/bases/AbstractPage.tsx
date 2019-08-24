@@ -7,7 +7,7 @@ export interface IAbstractPageProps {
 }
 
 export interface IAbstractPageState {
-    pageNum?: number
+    page?: number
     pageSize?: number
     total?: number
 }
@@ -59,6 +59,7 @@ export abstract class AbstractPage<P extends IAbstractPageProps, S extends IAbst
         if (request.cancel) {
             request.cancel(this.getUUID())
         }
+       
     }
     
     /**

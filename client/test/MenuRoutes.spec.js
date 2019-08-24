@@ -1,5 +1,5 @@
 
-import {convertRouterList} from  '../src/components/Admin/Navigation/NavigationConfig'
+import {convertRouterList} from  '../src/components/Admin/Navigation/NavigationUtils'
 
 
 describe("test Roots", () => {

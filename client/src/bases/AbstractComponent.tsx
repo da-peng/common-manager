@@ -11,7 +11,7 @@ export interface IAbstractComponentProps<T = any>{
 }
 
 export interface IAbstractComponentState {
-    pageNum?: number
+    page?: number
     pageSize?: number
     total?: number
 }

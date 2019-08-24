@@ -5,7 +5,6 @@ import { store } from '../reducers/Store'
 // import {LOGOUT} from '../reducers/Auth/ActionsType'
 // import {removeToken} from '../utils/EncryptLocalStorage'
 import { notice } from '../utils/Notification/Notification'
-import { getUid } from '../utils/EncryptLocalStorage';
 
 const axiosInstance = axios.create(
     {

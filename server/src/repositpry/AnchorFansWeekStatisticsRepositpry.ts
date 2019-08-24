@@ -38,12 +38,14 @@ export class AnchorFansWeekStatisticsRepositpry extends Repository<AnchorFansWee
      * 
      * @param anchorId 
      */
-    getDynamicFansByAnthorId(anchorId:number){
+    getDynamicFansByAnthorId(anchorId:number,startDate:Date,endDate:Date){
+        console.log(anchorId,startDate,endDate)
         return this.createQueryBuilder('fans')
-            .select('fans.fansFollow,fans.totalPlay,fans.createDate')
-            .where(`fans.anchorId= :anchorId`, { 'anchorId': anchorId })
-            .orderBy("fans.createDate", "DESC")
-            .getMany()
+        .select('fans.fansFollow,fans.totalPlay,fans.createDate')
+        .where(`fans.anchorId = :anchorId`, { 'anchorId': anchorId })
+        .andWhere(`fans.createDate >= :startDate AND fans.createDate <= :endDate`,{'startDate':startDate,'endDate':endDate})
+        .orderBy("fans.createDate", "ASC")
+        .getRawMany()
     }
 
 }

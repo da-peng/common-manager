@@ -8,7 +8,7 @@ export interface IResponseListBase<T> {
     status: number
     message: string
     page: number
-    totalPage: number
+    total: number
     data: {
         [index:number]: T
     }
