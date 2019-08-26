@@ -4,6 +4,7 @@ import {ChannelAndTagsService} from '../service/channel_tags_service'
 import * as util from 'util'
 import { Anchor } from "../entity/Anchor";
 import { StringUtil } from "../utils/string_utils";
+import { retry } from "../utils/crewler_utils";
 /**
  * 主播空间 的爬虫，爬去空间下的频道， 一级所有视频分类（数量）视频热度信息
  */
@@ -41,7 +42,8 @@ export class SpaceChannelAndTagsMouthCrewler extends AbstractBaseCrewler {
             
             this.crewlerTransform.write(`page navigation to ${channelUrl}`)
             await this.page.waitFor(5000)
-            let channelItems = await this.page.$$eval('#page-channel-index > div.col-full > div > div.content > div > div'
+            
+            let channelItems:any = await retry(async()=>{await this.page.$$eval('#page-channel-index > div.col-full > div > div.content > div > div'
                 , (items) => items.map((i) => {
                     let videoNum = parseInt(i.querySelector('div.video-num-inner > strong').textContent)
                     let channelTitle = i.querySelector('div.channel-meta > h4').textContent
@@ -52,6 +54,8 @@ export class SpaceChannelAndTagsMouthCrewler extends AbstractBaseCrewler {
                         channelCreateTime: channelCreateTime.replace('\n','').trim()
                     }
                 }))
+            },2,100)
+
             this.crewlerTransform.write(`channel include: \n ${util.inspect(channelItems,{colors:true})}`)
             /**
              * 存储数据
@@ -78,8 +82,9 @@ export class SpaceChannelAndTagsMouthCrewler extends AbstractBaseCrewler {
                     }
                 })
             )
-
-            this.crewlerTransform.write(`tags include: \n ${util.inspect(tags,{colors:true})}`)
+            // this.crewlerTransform.write(`tags include: \n ${util.inspect(tags,{colors:true})}`)
+            this.crewlerTransform.write(tags)
+            // this.crewlerTransform.write(`tags include: \n ${util.inspect(tags,{colors:true})}`)
             for (i of tags) {
                 await ChannelAndTagsService.saveTags(anthorId,i.tagName,i.videoNum)
             }

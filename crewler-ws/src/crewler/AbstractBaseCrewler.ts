@@ -29,7 +29,7 @@ export abstract class AbstractBaseCrewler {
         // console.log(args[1])
         await this.parse(...args)
         // await this.storeData(result)
-        await this.tearDwown()
+        await this.tearDown()
         // process.kill(args[3])
     }
 
@@ -51,7 +51,7 @@ export abstract class AbstractBaseCrewler {
         // console.log(args[1])
         await this.parse(...args)
         // await this.storeData(result)
-        await this.tearDwown()
+        await this.tearDown()
         // process.kill(args[3])
     }
 
@@ -106,7 +106,7 @@ export abstract class AbstractBaseCrewler {
         // set a timeout of 8 minutes
         await this.page.setDefaultNavigationTimeout(480000)
         await this.page.setViewport({ width: 1300, height: 1500 })
-        this.crewlerTransform.write('browser config finish')
+        this.crewlerTransform.write(`${new Date()}: browser config finish,crewler start!`)
     }
 
     timeout(delay: number) {
@@ -175,10 +175,11 @@ export abstract class AbstractBaseCrewler {
         }
     }
 
-    async tearDwown() {
+    async tearDown() {
         try {
             await this.browser.close();
-            console.log('teardown success')
+            this.crewlerTransform.write(`${new Date()}: browser teardown crewler finish!`)
+            // console.log('teardown success')
         } catch (error) {
             console.log(error)
             console.log("teardown error")

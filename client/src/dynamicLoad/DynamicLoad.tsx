@@ -15,16 +15,22 @@ export const AsyncAdmin = Loadable({
 
 
 export const AsyncAnchor = Loadable({
-    loader: () => import(/* webpackChunkName: 'pages/anchor' */ '../pages/AnchorTable/AnchorTable'),
+    loader: () => import(/* webpackChunkName: 'pages/anchor' */ '../pages/Admin/AnchorTable/AnchorTable'),
     loading: () => <DynamicPageLoading />
 })
 
 export const AsyncAnchorDetail = Loadable({
-    loader: () => import(/* webpackChunkName: 'pages/anchor/detail' */ '../pages/AnchorTable/Detail/AnchorDetail'),
+    loader: () => import(/* webpackChunkName: 'pages/anchor/detail' */ '../pages/Admin/AnchorTable/Detail/AnchorDetail'),
     loading: () => <DynamicPageLoading />
 })
 
 export const AsyncDashboard = Loadable({
     loader: () => import(/* webpackChunkName: 'pages/dashboard' */ '../pages/Dashboard/Dashboard'),
+    loading: () => <DynamicPageLoading />
+})
+
+
+export const AsyncCrewlerManage = Loadable({
+    loader: () => import(/* webpackChunkName: 'pages/crewler' */ '../pages/Crewler/CrewlerManage'),
     loading: () => <DynamicPageLoading />
 })

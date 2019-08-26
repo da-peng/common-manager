@@ -11,7 +11,7 @@ import {EditableCell} from './EditableCell'
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import _ from "lodash";
 import { RouteComponentProps } from 'react-router';
-import { number } from 'prop-types';
+import {convertUnit} from '../../utils/string-utils'
 interface  Iprops extends IAbstractComponentProps<Array<IAnchorInfo>>, FormComponentProps,RouteComponentProps{
     page?:number
     pageSize?:number
@@ -63,7 +63,7 @@ class AnchorTableComponent extends AbstractComponent<Iprops,IState>{
     getTableOpt():TableProps<IAnchorInfo>{
 
         const {
-            anchorList, total = 0, page = 1, pageSize = 10 ,editingIndex
+            anchorList, total = 0, page = 1, pageSize  ,editingIndex
         } = this.state
         // console.log('editingIndex',editingIndex)
         const columns = this.getTableColumns().map(col => {
@@ -104,7 +104,7 @@ class AnchorTableComponent extends AbstractComponent<Iprops,IState>{
                 current:page,//当前页数
                 total,//数据总数
                 pageSize,//每页条数
-                showTotal: () => `共 ${pageSize} 条`,//用于显示数据总量和当前数据顺序
+                showTotal: () => `共 ${anchorList.length} 条`,//用于显示数据总量和当前数据顺序
                 onChange: (page:number) => this.onPageChange(page)
             },
             ...this.props.tableProps
@@ -149,7 +149,8 @@ class AnchorTableComponent extends AbstractComponent<Iprops,IState>{
                 key: 'fansFollow',
                 width:180,
                 render:(follow:number)=>{
-                  return this.convertUnit(follow.toString())
+                  const {value,unit}=convertUnit(follow.toString()) as any
+                  return value+unit
                 }
 
             },
@@ -158,7 +159,8 @@ class AnchorTableComponent extends AbstractComponent<Iprops,IState>{
                 dataIndex: 'totalPlay',
                 key: 'totalPlay',
                 render:(play:string)=>{
-                  return this.convertUnit(play)
+                  const {value,unit}=convertUnit(play.toString()) as any
+                  return value+unit
                 }
             },
             {
@@ -202,28 +204,13 @@ class AnchorTableComponent extends AbstractComponent<Iprops,IState>{
         ]
     }
 
-    convertUnit=(strData:string)=>{
-      let i = parseInt(strData)
-      if (strData.length>=(10**8).toString().length){
-        return (i/(10**8)+'亿')
-      }else if (strData.length>=(10**7).toString().length){
-        return (i/(10**7)+'千万')
-      }else if (strData.length>=(10**6).toString().length){
-        return (i/(10**6)+'百万')
-      }else if (strData.length>=(10**4).toString().length){
-        return (i/(10**4)+'万')
-      }else if (strData.length>=(10**3).toString().length){
-        return (i/(10**3)+'千')
-      }else if (strData.length>=(10**2).toString().length){
-        return (i/(10**3)+'百')
-      }
-    }
+
 
     details= (anchorLink:string) =>{
 
       let id = (anchorLink.match(/[1-9][0-9]*/g) as RegExpMatchArray)[0]
-      console.log(id)
-      console.log(this.props.match.url)
+      // console.log(id)
+      // console.log(this.props.match.url)
       this.props.history.push(`${this.props.match.url}/detail`, {id});
     }
 

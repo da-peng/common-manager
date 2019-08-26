@@ -1,10 +1,11 @@
-
-/**
- * WebSocket服务端，用于测试
- */
+import { WS_LOCAL_HOST } from '../utils/config';
 import  * as WebSocket from 'ws'
-var ws = new WebSocket("ws://localhost:8888/crewlerExecute");
- 
+/**
+ * WebSocket,Node端实现的客户端
+ */
+var ws = new WebSocket(WS_LOCAL_HOST+"/crewlerExecute");
+
+
 ws.onopen = function(evt) {
 	console.log("Connection open ...");
 	let jsonData = {

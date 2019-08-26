@@ -5,7 +5,6 @@ import {ConnectionManage} from './utils/connection_manage'
 
 import {userRouter} from './routers/user_router'
 import {anchorRouter} from './routers/anchor_router'
-import {scheduleCronstyle} from '../src/schedule/Schedule'//Todo
 
 let app = new Koa();
 app.use(middleware())
@@ -20,6 +19,5 @@ app.use(userRouter.allowedMethods())
 // anchorRouter
 app.use(anchorRouter.routes())
 app.use(anchorRouter.allowedMethods())
-// 启动定时任务
-// scheduleCronstyle();
+
 app.listen(parseInt(process.env.PORT, 10) || 3000);

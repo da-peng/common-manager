@@ -1,10 +1,10 @@
-import { IAbstractPageState, IAbstractPageProps, AbstractPage } from "../../../bases/AbstractPage";
+import { IAbstractPageState, IAbstractPageProps, AbstractPage } from "../../../../bases/AbstractPage";
 import { RouteComponentProps } from "react-router";
 import *  as React from 'react'
-import { AnchorService } from "../../../services/Anchor";
-import { Message } from "../../../utils/Message";
+import { AnchorService } from "../../../../services/Anchor";
+import { Message } from "../../../../utils/Message";
 import { Row, Col } from "antd";
-import { AnchorFansStatistics } from "../../../components/AnchorTable/Detail/AnchorFansStatistics";
+import { AnchorFansStatistics } from "../../../../components/AnchorTable/Detail/AnchorFansStatistics";
 
 interface IProps extends IAbstractPageProps, RouteComponentProps<any> {
 
@@ -25,14 +25,8 @@ class AnchorDetailPage extends  AbstractPage<IProps,IState>{
     getRenderContent(){
         return (
             // <Row gutter={24}>
-            <Row >
-                <Col >
-                    <AnchorFansStatistics {...this.props}/>
-                </Col>
-                {/* <Col span ={4}>
-
-                </Col> */}
-            </Row>
+            <AnchorFansStatistics {...this.props}/>
+           
         )
     }
 

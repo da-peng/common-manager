@@ -64,6 +64,7 @@ anchorRouter.post('/anchorFansStatistics',async (ctx)=>{
     let anchorLink = ctx.request.body.anchorLink
     let startDate = ctx.request.body.startDate
     let endDate = ctx.request.body.endDate
+    console.log(startDate,endDate)
 
     let result = await AnchorService.getAnchorFansWeekStatisticsById(anchorLink,startDate,endDate)
     const responseObj:ResponseObject = {

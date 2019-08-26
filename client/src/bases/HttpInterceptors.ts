@@ -5,6 +5,7 @@ import { store } from '../reducers/Store'
 // import {LOGOUT} from '../reducers/Auth/ActionsType'
 // import {removeToken} from '../utils/EncryptLocalStorage'
 import { notice } from '../utils/Notification/Notification'
+import { HIDEN } from '../reducers/Loading/ActionsType';
 
 const axiosInstance = axios.create(
     {
@@ -41,6 +42,9 @@ const errorHandle = (error: any) => {
     const { response } = error;
 
     if (response) {// 返回500
+        store.dispatch({
+            type: HIDEN
+        })
         return Promise.resolve(
             notice({
                 noticeType: 'error',
@@ -51,6 +55,9 @@ const errorHandle = (error: any) => {
             )
         )
     } else {// 断网
+        store.dispatch({
+            type: HIDEN
+        })
         return Promise.reject(
             notice({
                 noticeType: 'error',

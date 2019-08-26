@@ -1,9 +1,9 @@
 import * as Style from './AnchorTable.less'
 import *  as React from 'react'
-import { IAbstractPageState, IAbstractPageProps, AbstractPage } from '../../bases/AbstractPage';
+import { IAbstractPageState, IAbstractPageProps, AbstractPage } from '../../../bases/AbstractPage';
 import { RouteComponentProps } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
-import { AnchorTable } from '../../components/AnchorTable/AnchorTableComponents';
+import { AnchorTable } from '../../../components/AnchorTable/AnchorTableComponents';
 
 interface IProps extends IAbstractPageProps,FormComponentProps, RouteComponentProps<any> {}
 

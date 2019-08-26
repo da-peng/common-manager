@@ -30,7 +30,7 @@ export class AnchorFansWeekStatisticsRepositpry extends Repository<AnchorFansWee
         .select("fans.anchorId, MAX(fans.totalPlay) as totalPlay, MAX(fans.fansFollow) as fansFollow")
         .groupBy('fans.anchorId')
         .orderBy("fansFollow",'DESC')
-        .getCount()
+        .getRawMany()
     }
 
 

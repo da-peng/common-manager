@@ -111,8 +111,9 @@ export class RankWeekCrewler extends AbstractBaseCrewler {
             detail.collect = unitConvertToInt(collect)
             detail.danmu = unitConvertToInt(danmuCount.replace('弹幕', ''))
             detail.tags = tags.join(',')
-
-            this.crewlerTransform.write(`Rank Video Detail: \n ${ util.inspect(item,{colors:true})}`)
+            
+            this.crewlerTransform.write(item)
+            // this.crewlerTransform.write(`Rank Video Detail: \n ${ util.inspect(item,{colors:true})}`)
 
             let rankItem: RankItemInfo = item
 

@@ -5,21 +5,21 @@ export class StringUtil{
 
     static unitConvertToInt=(i:string)=>{
         if (i.match(/万/)){
-            return parseInt(i.replace('万',''))*10**4
+            return parseFloat(i.replace('万',''))*10**4
         }else if(i.match(/亿/)){
-            return parseInt(i.replace('亿',''))*10**8
+            return parseFloat(i.replace('亿',''))*10**8
         }else if(i.match(/千万/)){
-            return parseInt(i.replace('千万',''))*10**7
+            return parseFloat(i.replace('千万',''))*10**7
         }else if(i.match(/,/)){
             let l = i.split(',')
             let s = []
             for (let index = 0; index < l.length; index++) {
                 const j = l[index];
-                s.push(parseInt(j)*1000*(l.length-index))
+                s.push(parseFloat(j)*1000*(l.length-index))
             }//?
-            return parseInt(s.join(''))
+            return parseFloat(s.join(''))
         }
-        return parseInt(i)
+        return parseFloat(i)
     }
 
     static timeFormat=(time:string)=>{

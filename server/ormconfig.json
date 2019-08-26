@@ -7,6 +7,9 @@
    "database": "test",
    "synchronize": true,
    "logging": false,
+   "options":{
+      "useUTC":false
+   },
    "entities": [
       "src/entity/*.ts"
    ],

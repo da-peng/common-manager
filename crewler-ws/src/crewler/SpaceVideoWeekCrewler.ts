@@ -2,6 +2,7 @@ import { AbstractBaseCrewler } from "./AbstractBaseCrewler";
 import { SpaceService } from "../service/space_service";
 import { StringUtil } from '../utils/string_utils'
 import * as util from 'util'
+import { retry } from "../utils/crewler_utils";
 /**
  * 主播空间 的爬虫，爬去空间下的频道， 一级所有视频分类（数量）视频热度信息
  */
@@ -59,20 +60,22 @@ export class SpaceVideoWeekCrewler extends AbstractBaseCrewler {
     j: number = 0
     async parsePage(pageNums, anchorId) {
 
-        let videoItems = await this.page.$$eval('#submit-video-list > ul.clearfix.cube-list > li', (items) => items.map((item) => {
-            let videoLink = item.querySelector('a').href
-            let videoTitle = item.querySelector('a.title').textContent
-            let play = item.querySelector('div > span.play').textContent
-            let time = item.querySelector('div > span.time').textContent
-            return {
-                videoLink: videoLink,
-                videoTitle: videoTitle,
-                play: (play.replace('\n', '')).trim(),
-                time: time.replace('\n', '').trim()
-            }
-        }))
-
-        this.crewlerTransform.write(`channel include: \n ${util.inspect(videoItems, { colors: true })}`)
+        let videoItems:any = await retry(async ()=>{
+            return  await this.page.$$eval('#submit-video-list > ul.clearfix.cube-list > li', (items) => items.map((item) => {
+                let videoLink = item.querySelector('a').href
+                let videoTitle = item.querySelector('a.title').textContent
+                let play = item.querySelector('div > span.play').textContent
+                let time = item.querySelector('div > span.time').textContent
+                return {
+                    videoLink: videoLink,
+                    videoTitle: videoTitle,
+                    play: (play.replace('\n', '')).trim(),
+                    time: time.replace('\n', '').trim()
+                }
+            }))
+        },2,100)
+        this.crewlerTransform.write(videoItems)
+        // this.crewlerTransform.write(`channel include: \n ${util.inspect(videoItems, { colors: true })}`)
         this.k = 0
         await this.parseItem(videoItems, anchorId)
         await this.page.waitFor(5000)

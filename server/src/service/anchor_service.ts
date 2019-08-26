@@ -73,7 +73,7 @@ export class AnchorService {
         let anchorFansWeekStatisticsRepositpry = connection.getCustomRepository(AnchorFansWeekStatisticsRepositpry)
         let anchorRepository = connection.getCustomRepository(AnchorRepository)
         let fans = await anchorFansWeekStatisticsRepositpry.getFansOrderByFollow(pageIndex==0?pageIndex:pageIndex-1,pageSize)
-        let count = await anchorFansWeekStatisticsRepositpry.getFansOrderByFollowCount()
+        let count = (await anchorFansWeekStatisticsRepositpry.getFansOrderByFollowCount()).length
         // let pageTotal:number
         // if (count > pageSize) {
         //     pageTotal = Math.ceil(count / pageSize)//向上取整
