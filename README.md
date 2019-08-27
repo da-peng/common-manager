@@ -11,6 +11,19 @@ Node React Redux Koa
 - server # 基于Koa 的API服务
 ```
 
+# 数据库设计
+
+## anchor 主播信息
+## anchor_daily_rank 每日排行榜主播信息
+## anchor_fans_week_statistic 每周粉丝统计
+## custom_tags_collect 用户自定义标签
+## rank_video_info  排行榜视频信息
+## rank_video_hot_info 排行榜视频 热度信息
+## space_channel_statistic 主播空间频道信息
+## space_video_info 主播空间视频信息
+## space_video_tags 主播空间视频标签
+## space_video_week_hot_info 主播空间视频热度信息
+
 # 前端截图
 
 ## 爬虫RoadMap
