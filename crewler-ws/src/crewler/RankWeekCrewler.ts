@@ -68,7 +68,13 @@ export class RankWeekCrewler extends AbstractBaseCrewler {
             const createTime = '#viewbox_report > div:nth-child(2) > span:nth-child(2)'
 
             let danmuCount: string = '', like: string = '', coin: string = '', collect: string = '', videoCreateTime: Date
-            videoCreateTime = new Date((await (await (await this.page.$(createTime)).getProperty('innerText')).jsonValue()).toString())
+            
+            try{
+                videoCreateTime = new Date((await (await (await this.page.$(createTime)).getProperty('innerText')).jsonValue()).toString())
+            }catch(e){
+                continue
+            }
+            
             
             await this.page.waitFor(2000)
 
@@ -112,7 +118,7 @@ export class RankWeekCrewler extends AbstractBaseCrewler {
             detail.danmu = unitConvertToInt(danmuCount.replace('弹幕', ''))
             detail.tags = tags.join(',')
             
-            this.crewlerTransform.write(item)
+            this.Log.info(item)
             // this.crewlerTransform.write(`Rank Video Detail: \n ${ util.inspect(item,{colors:true})}`)
 
             let rankItem: RankItemInfo = item

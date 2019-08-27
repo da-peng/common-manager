@@ -44,8 +44,7 @@ export class MenuNavigation extends AbstractComponent<IProps, IState>{
 
 
     componentDidMount(){
-        const{path,url} = this.props.match
-        // console.log(path,url)
+
         let { pathname }= this.props.location
         if (pathname==='/admin'){
             pathname='/admin/dashboard'

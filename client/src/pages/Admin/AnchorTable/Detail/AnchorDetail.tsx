@@ -1,9 +1,6 @@
 import { IAbstractPageState, IAbstractPageProps, AbstractPage } from "../../../../bases/AbstractPage";
 import { RouteComponentProps } from "react-router";
 import *  as React from 'react'
-import { AnchorService } from "../../../../services/Anchor";
-import { Message } from "../../../../utils/Message";
-import { Row, Col } from "antd";
 import { AnchorFansStatistics } from "../../../../components/AnchorTable/Detail/AnchorFansStatistics";
 
 interface IProps extends IAbstractPageProps, RouteComponentProps<any> {

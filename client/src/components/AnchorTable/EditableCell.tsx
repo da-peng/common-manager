@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { AbstractComponent, IAbstractComponentProps, IAbstractComponentState } from '../../bases/AbstractComponent';
-import { InputNumber, Input, Select } from 'antd';
+import {  Input, Select } from 'antd';
 import Form, { FormComponentProps } from 'antd/lib/form';
 import { ColumnProps } from 'antd/lib/table';
 import { IAnchorInfo } from '../../models/Anchor';

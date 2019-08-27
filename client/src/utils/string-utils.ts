@@ -22,9 +22,16 @@ export const convertUnit = (strData: string) => {
         }
     } else if (strData.length >= (10 ** 2).toString().length) {
         return {
-            value: i / (10 ** 3),
+            value: i / (10 ** 2),
             unit: '百'
         }
+    } else{
+
+        return {
+            value: i,
+            unit: '个'
+        }
+
     }
 }
 

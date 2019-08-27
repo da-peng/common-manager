@@ -20,6 +20,16 @@ const config = {
  */
 import * as WebSocket from 'ws'
 const ws = new WebSocket.Server({ port: 8888 });
+
+ws.on('error', function(error) {
+    console.log("Connection Error: " + error.toString());
+});
+
+
+ws.on('close', function(error) {
+    console.log("Connection Error: " + error.toString());
+});
+
 ws.on('connection', (ws, request, client) => {
     const pathname = url.parse(request.url).pathname;
     const ip = request.connection.remoteAddress;
@@ -27,6 +37,8 @@ ws.on('connection', (ws, request, client) => {
     // console.log(pathname)
     
     if(pathname==='/crewlerExecute'){
+       
+
         ws.on('message', msg => {
             console.log(msg.toString())    
             try {
@@ -35,18 +47,27 @@ ws.on('connection', (ws, request, client) => {
                     // 返回给前端的数据
                     const rankCrewler = new RankWeekCrewler()
                     const crewlerTransform = new CrewlerTransform().init((chunk: any) => {
-                        ws.send(chunk);
+                        if (ws.readyState=WebSocket.OPEN){
+                            ws.send(chunk);
+                        }else{
+                            console.log('客户端连接断开')
+                        }
                     })
                     let ops = ret.ops
                     let isheadless = ops.isheadless!=null ? ops.isheadless : true
-                    let type = !!ops.type ? ops.type : 'global'
+                    let type = 'global'
+                    type =  ops.type!=''? ops.type:'global'
                     let urls: string = config[type]
                     rankCrewler.init(isheadless, urls, crewlerTransform)
                 }else if(ret.task === 'SpaceVideoWeekCrewler'){
                     const spaceVideoWeekCrewler = new SpaceVideoWeekCrewler()
     
                     const crewlerTransform = new CrewlerTransform().init((chunk: any) => {
-                        ws.send(chunk);
+                        if (ws.readyState=WebSocket.OPEN){
+                            ws.send(chunk);
+                        }else{
+                            console.log('客户端连接断开')
+                        }
                     })
                     let ops = ret.ops
 
@@ -57,7 +78,11 @@ ws.on('connection', (ws, request, client) => {
                     const spaceChannelAndTagsMouthCrewler = new SpaceChannelAndTagsMouthCrewler()
     
                     const crewlerTransform = new CrewlerTransform().init((chunk: any) => {
-                        ws.send(chunk);
+                        if (ws.readyState=WebSocket.OPEN){
+                            ws.send(chunk);
+                        }else{
+                            console.log('客户端连接断开')
+                        }
                     })
                     let ops = ret.ops
                     let isheadless = ops.isheadless!=null ? ops.isheadless : true
@@ -66,14 +91,21 @@ ws.on('connection', (ws, request, client) => {
                     const anchorFansWeekCrewler = new AnchorFansWeekCrewler()
     
                     const crewlerTransform = new CrewlerTransform().init((chunk: any) => {
-                        ws.send(chunk);
+                        if (ws.readyState=WebSocket.OPEN){
+                            ws.send(chunk);
+                        }else{
+                            console.log('客户端连接断开')
+                        }
+                        
                     })
                     let ops = ret.ops
                     let isheadless = ops.isheadless!=null ? ops.isheadless : true
                     anchorFansWeekCrewler.init(isheadless, crewlerTransform)
                 }else{
                     const crewlerTransform = new CrewlerTransform().init((chunk: any) => {
-                        ws.send(chunk);
+                        if (ws.readyState=WebSocket.OPEN){
+                            ws.send(chunk);
+                        }
                     })
                     crewlerTransform.write('task error！！！')
                 }

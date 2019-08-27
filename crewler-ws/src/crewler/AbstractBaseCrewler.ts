@@ -2,8 +2,7 @@ import * as puppeteer from 'puppeteer';
 import * as path from 'path'
 import { Browser, Page } from 'puppeteer';
 import {Transform} from 'stream'
-// const puppeteer = require('puppeteer-extra')
-
+import { LoggerUtils } from '../logger/LoggerUtils';
 const userName = require('os').userInfo().username
 // const pluginPath = `/Users/grabbywu/Library/Application Support/Google/Chrome/PepperFlash/32.0.0.223/PepperFlashPlayer.plugin`.trim()
 // const pluginVersion = '32.0.0.223'
@@ -12,7 +11,7 @@ export abstract class AbstractBaseCrewler {
 
     browser: Browser
     page: Page
-    crewlerTransform:Transform
+    Log:any
     url:string=''
 
     async runWithOutUrl(isHeadless: boolean ,crewlerTransform:any,...args: any) {
@@ -24,7 +23,7 @@ export abstract class AbstractBaseCrewler {
         3 pageNum
         */
         // console.log(args[0])
-        this.crewlerTransform = crewlerTransform
+        this.Log = new LoggerUtils(crewlerTransform)
         await this.config(isHeadless)
         // console.log(args[1])
         await this.parse(...args)
@@ -45,7 +44,7 @@ export abstract class AbstractBaseCrewler {
         if(url===''){
             url = this.url
         }
-        this.crewlerTransform = crewlerTransform
+        this.Log = new LoggerUtils(crewlerTransform)
         await this.config(isHeadless)
         await this.start(url)
         // console.log(args[1])
@@ -106,7 +105,8 @@ export abstract class AbstractBaseCrewler {
         // set a timeout of 8 minutes
         await this.page.setDefaultNavigationTimeout(480000)
         await this.page.setViewport({ width: 1300, height: 1500 })
-        this.crewlerTransform.write(`${new Date()}: browser config finish,crewler start!`)
+
+        this.Log.info(`browser config finish,crewler start!`)
     }
 
     timeout(delay: number) {
@@ -132,7 +132,7 @@ export abstract class AbstractBaseCrewler {
         try {
             let page = this.page
             await page.goto(path,{waitUntil: 'domcontentloaded'}) //使page在 DOMContentLoaded 事件触发时就返回结果，而无需等到Load事件，这样就节省了等待构建渲染树与页面绘制的时间。
-            this.crewlerTransform.write(`page navigation to ${path}`)
+            this.Log.info(`page navigation to ${path}`)
             const dimensions = await page.evaluate(() => {
                 return {
                     width: document.documentElement.clientWidth,
@@ -178,7 +178,7 @@ export abstract class AbstractBaseCrewler {
     async tearDown() {
         try {
             await this.browser.close();
-            this.crewlerTransform.write(`${new Date()}: browser teardown crewler finish!`)
+            this.Log.info(`browser teardown crewler finish!`)
             // console.log('teardown success')
         } catch (error) {
             console.log(error)

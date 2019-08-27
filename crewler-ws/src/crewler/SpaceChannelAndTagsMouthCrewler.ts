@@ -40,10 +40,11 @@ export class SpaceChannelAndTagsMouthCrewler extends AbstractBaseCrewler {
             let channelUrl = anchorLink + '/channel/index'
             await this.page.goto(channelUrl, { waitUntil: 'domcontentloaded' })
             
-            this.crewlerTransform.write(`page navigation to ${channelUrl}`)
+            this.Log.info(`page navigation to ${channelUrl}`)
             await this.page.waitFor(5000)
             
-            let channelItems:any = await retry(async()=>{await this.page.$$eval('#page-channel-index > div.col-full > div > div.content > div > div'
+            let channelItems:any = await retry(async()=>{
+                return await this.page.$$eval('#page-channel-index > div.col-full > div > div.content > div > div'
                 , (items) => items.map((i) => {
                     let videoNum = parseInt(i.querySelector('div.video-num-inner > strong').textContent)
                     let channelTitle = i.querySelector('div.channel-meta > h4').textContent
@@ -56,7 +57,7 @@ export class SpaceChannelAndTagsMouthCrewler extends AbstractBaseCrewler {
                 }))
             },2,100)
 
-            this.crewlerTransform.write(`channel include: \n ${util.inspect(channelItems,{colors:true})}`)
+            this.Log.info(channelItems)
             /**
              * 存储数据
              */
@@ -70,7 +71,7 @@ export class SpaceChannelAndTagsMouthCrewler extends AbstractBaseCrewler {
 
             await this.page.goto(videoUrl, { waitUntil: 'domcontentloaded' })
             await this.page.waitFor(5000)//必须要加一个等待时间
-            this.crewlerTransform.write(`page navigation to ${videoUrl}`)
+            this.Log.info(`page navigation to ${videoUrl}`)
             
             let tags = await this.page.$$eval('#submit-video-type-filter > a'
                 , (item) => item.map((i)=>{
@@ -83,7 +84,7 @@ export class SpaceChannelAndTagsMouthCrewler extends AbstractBaseCrewler {
                 })
             )
             // this.crewlerTransform.write(`tags include: \n ${util.inspect(tags,{colors:true})}`)
-            this.crewlerTransform.write(tags)
+            this.Log.info(tags)
             // this.crewlerTransform.write(`tags include: \n ${util.inspect(tags,{colors:true})}`)
             for (i of tags) {
                 await ChannelAndTagsService.saveTags(anthorId,i.tagName,i.videoNum)

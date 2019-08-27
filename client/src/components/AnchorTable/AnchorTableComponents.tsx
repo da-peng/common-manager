@@ -149,8 +149,13 @@ class AnchorTableComponent extends AbstractComponent<Iprops,IState>{
                 key: 'fansFollow',
                 width:180,
                 render:(follow:number)=>{
-                  const {value,unit}=convertUnit(follow.toString()) as any
-                  return value+unit
+                  if(follow){
+                    const {value,unit}=convertUnit(follow.toString()) as any
+                    return value+unit
+                  }else{
+                    return ''
+                  }
+                 
                 }
 
             },
@@ -159,8 +164,13 @@ class AnchorTableComponent extends AbstractComponent<Iprops,IState>{
                 dataIndex: 'totalPlay',
                 key: 'totalPlay',
                 render:(play:string)=>{
-                  const {value,unit}=convertUnit(play.toString()) as any
-                  return value+unit
+                  if(play){
+                    const {value,unit}=convertUnit(play.toString()) as any
+                    return value+unit
+                  }else{
+                    return ''
+                  }
+                 
                 }
             },
             {

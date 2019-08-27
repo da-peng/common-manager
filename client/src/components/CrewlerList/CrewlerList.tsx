@@ -1,11 +1,13 @@
 import { AbstractComponent, IAbstractComponentProps, IAbstractComponentState } from "../../bases/AbstractComponent";
-import { Col, Row, Card, Icon, Select, Button } from "antd";
+import { Col, Row, Card, Select, Button } from "antd";
 import Meta from "antd/lib/card/Meta";
 import *  as React from 'react'
 import Style from './Card.less'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { WEBSOCKET_SERVICE } from '../../utils/Constants'
 import { FormComponentProps } from "antd/lib/form";
+import { RefObject } from "react";
+import ReactDOM from "react-dom";
 
 interface IProps extends IAbstractComponentProps,FormComponentProps{
 
@@ -19,9 +21,12 @@ interface IState extends IAbstractComponentState{
 class CrewlerListComponent extends AbstractComponent<IProps,IState>{
     
     state:IState ={
-        result : []
+        result : [],
+        type:''
     }
     displayName = 'CrewlerList'
+
+    messagesEnd= React.createRef<HTMLDivElement>()
 
     handleChange =(value:string)=>{
         this.setState(
@@ -32,15 +37,19 @@ class CrewlerListComponent extends AbstractComponent<IProps,IState>{
     }
 
     handleClick=(task:string)=>{
-       
+        const {type} = this.state
         const ws =  new W3CWebSocket(WEBSOCKET_SERVICE+"/crewlerExecute");
         ws.onopen = ()=> {
+           
             let jsonData = {
                 task:task,
                 ops:{
+                    type,
                     isheadless:true,
                 }
             }
+            
+
             if(ws.readyState===ws.OPEN){
                 console.log(jsonData)
                 ws.send(JSON.stringify(jsonData));
@@ -57,7 +66,7 @@ class CrewlerListComponent extends AbstractComponent<IProps,IState>{
                 console.log("Received Message: " + data);
             }else if(message.type === 'message'){
                 let ret = this.state.result as any
-                console.log(JSON.parse(message.data))
+                console.log(message.data)
                 data = message.data;
                 ret.push(data)
                 this.setState(
@@ -81,8 +90,14 @@ class CrewlerListComponent extends AbstractComponent<IProps,IState>{
         // }
 
     }
+    // componentDidMount(){
+    //     this.scrollToBottom()//这里 应该是要div 独立封装一个组件
+    // }
 
-    
+    scrollToBottom = () => {
+        const node = ReactDOM.findDOMNode(this.messagesEnd as any);
+        (node as any).scrollIntoView({ behavior: "smooth" });
+    }
 
     getRenderContent(){
         const {result} = this.state as any
@@ -161,9 +176,21 @@ class CrewlerListComponent extends AbstractComponent<IProps,IState>{
                         
                     </Card>
                 </Col>
-                <Col span={22}>
-                    <div>
-                        <p>{result}</p>
+                <Col span={24}>
+
+                    <hr className ={Style.hr} />
+
+                    <h1>运行日志:</h1>
+                    
+
+                    <div className ={Style.crewlerLog}
+                    ref ={(el) => {(this.messagesEnd as any) = el}}
+                    >
+                        {result.map((i :any)=>{
+                           return <p >{i}</p>
+                        })
+                        }
+                        
                     </div>
                 </Col>
             </Row>

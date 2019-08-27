@@ -39,7 +39,7 @@ export class SpaceVideoWeekCrewler extends AbstractBaseCrewler {
         let anchorLink = anchor.anchorLink
         let videoUrl = anchorLink + '/video'
         await this.page.goto(videoUrl, { waitUntil: 'domcontentloaded' })
-        this.crewlerTransform.write(`page navigation to ${videoUrl}`)
+        this.Log.info(`page navigation to ${videoUrl}`)
         await this.page.waitFor(5000)
         let pageNums = await this.page.$eval('#submit-video-list > ul.be-pager > span.be-pager-total', (i) => {
             let pageNums = parseInt(i.textContent.replace('共', '').replace('页', '').trim())
@@ -74,7 +74,7 @@ export class SpaceVideoWeekCrewler extends AbstractBaseCrewler {
                 }
             }))
         },2,100)
-        this.crewlerTransform.write(videoItems)
+        this.Log.info(videoItems)
         // this.crewlerTransform.write(`channel include: \n ${util.inspect(videoItems, { colors: true })}`)
         this.k = 0
         await this.parseItem(videoItems, anchorId)

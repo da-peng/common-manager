@@ -35,7 +35,7 @@ export class AnchorFansWeekCrewler extends AbstractBaseCrewler {
         let anchorId = anchor.id
         let anchorLink = anchor.anchorLink
         await this.page.goto(anchorLink, { waitUntil: 'domcontentloaded' })
-        this.crewlerTransform.write(`page navigation to ${anchorLink}`)
+        this.Log.info(`page navigation to ${anchorLink}`)
         await this.page.waitFor(5000)
 
         let statistics:any = await retry(async ()=>{
@@ -50,7 +50,7 @@ export class AnchorFansWeekCrewler extends AbstractBaseCrewler {
                 }
             })
         },3,100)
-        this.crewlerTransform.write(statistics)
+        this.Log.info(statistics)
         // this.crewlerTransform.write(`anchor fans statistics:\n ${util.inspect(statistics, { colors: true })}`)
 
         let followOther = parseInt(statistics.followOther)
