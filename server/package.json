@@ -23,7 +23,7 @@
       "reflect-metadata": "^0.1.10",
       "save-dev": "^2.0.0",
       "ts-node": "^3.3.0",
-      "typeorm": "0.2.18",
+      "typeorm": "0.2.25",
       "typescript": "3.3.3333",
       "uuid": "^3.3.2"
    },
